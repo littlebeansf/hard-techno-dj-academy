@@ -1,5 +1,6 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
+const IS_STATIC = import.meta.env.VITE_STATIC_MODE === "true";
 const API_BASE = "__PORT_5000__".startsWith("__") ? "" : "__PORT_5000__";
 
 async function throwIfResNotOk(res: Response) {
@@ -14,6 +15,10 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
+  // In static mode (GitHub Pages), return empty mock responses
+  if (IS_STATIC) {
+    return new Response(JSON.stringify([]), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  }
   const res = await fetch(`${API_BASE}${url}`, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
