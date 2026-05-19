@@ -3571,8 +3571,8 @@ html, body {
         <div style="padding:28px;overflow-y:auto;max-height:calc(100vh - 40px);">
           <div style="margin-bottom:28px;">
             <span class="section-label">◈ Field Analysis</span>
-            <h1 class="section-title">Playlist Statistics Dashboard</h1>
-            <p class="section-desc">Real data from the DJ's 238-track hard techno set — what the artists actually play, their energy profiles, key signatures, and BPM ranges. All data derived from track analysis.</p>
+            <h1 class="section-title">Genre Field Analysis</h1>
+            <p class="section-desc">Data-driven breakdown of the hard techno genre — BPM distributions, key signatures, energy profiles, and structural patterns derived from track analysis.</p>
           </div>
 
           <!-- Sub-nav tabs -->
@@ -4183,7 +4183,7 @@ const sectionTitles = {
   genre:         ['Genre Guide', 'Subgenre Reference'],
   djdeck:        ['DJ Deck', 'Dual Deck Mixer'],
   beatstudio:    ['Beat Studio', 'Step Sequencer'],
-  fieldanalysis: ['Field Analysis', 'Playlist Statistics'],
+  fieldanalysis: ['Field Analysis', 'Genre Analysis'],
   artists:       ['Artist Encyclopedia', 'Artist Profiles'],
   harmlab:       ['Harmonic Laboratory', 'Mixing Reference'],
   patterns:      ['Beat Patterns Library', 'Genre Pattern Presets'],
@@ -5719,34 +5719,74 @@ function getArtistBg(name) {
 function initArtistGrid() {
   const container = document.getElementById('artist-grid');
   if (!container) return;
+
+  // Genre-to-color mapping for card accent
+  const genreColor = {
+    'Hard Techno': 'var(--genre-hard-techno)',
+    'Hardcore': 'var(--genre-hardcore)',
+    'Frenchcore': 'var(--genre-frenchcore)',
+    'Industrial': 'var(--genre-industrial)',
+    'Acid Techno': 'var(--genre-acid-techno)',
+    'Schranz': 'var(--genre-schranz)',
+  };
+  function getCardColor(genre) {
+    for (const [k, v] of Object.entries(genreColor)) {
+      if (genre && genre.includes(k)) return v;
+    }
+    return 'var(--border-strong)';
+  }
+
   ARTISTS.forEach(a => {
+    const color = getCardColor(a.genre);
+    const bgSVG = getArtistBg(a.name);
+
     const card = document.createElement('div');
-    card.className = 'panel';
-    card.style.cursor = 'pointer';
-    card.style.userSelect = 'none';
+    card.className = 'artist-card';
+    card.style.cssText = 'position:relative;overflow:hidden;cursor:pointer;user-select:none;border-left:3px solid ' + color + ';';
     let expanded = false;
-    const header = '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
-      + '<div>'
-      + '<div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent-white);margin-bottom:3px;">' + a.name + '</div>'
-      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">' + a.tracks + ' tracks · ' + a.genre + '</div>'
-      + '</div>'
-      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);text-align:right;">'
-      + '<div>BPM ' + a.bpmRange + '</div>'
-      + '<div>E:' + a.avgEnergy + '/100</div>'
-      + '<div>' + a.camelot + '</div>'
-      + '</div></div>'
-      + '<div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);margin-bottom:8px;">' + a.profile + '</div>';
-    const trackListHTML = '<div class="artist-track-list" style="display:none;border-top:1px solid var(--border-subtle);padding-top:8px;margin-top:4px;">'
-      + a.trackList.map(t => '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);padding:2px 0;border-bottom:1px solid var(--border-subtle);">' + t + '</div>').join('')
-      + '</div>'
-      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-top:6px;text-align:center;" class="artist-expand-hint">▼ Show all tracks</div>';
-    card.innerHTML = header + trackListHTML;
+
+    // Energy bar width (0–100)
+    const energyPct = Math.round((a.avgEnergy / 100) * 100);
+
+    card.innerHTML =
+      // SVG generative background
+      '<div class="artist-bg-wrap" style="opacity:0.18;position:absolute;inset:0;pointer-events:none;overflow:hidden;">' + bgSVG + '</div>'
+      // Content
+      + '<div style="position:relative;z-index:1;padding:10px 12px;">'
+        + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;">'
+          + '<div>'
+            + '<div style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:#ffffff;margin-bottom:2px;text-shadow:0 1px 4px rgba(0,0,0,0.8);">' + a.name + '</div>'
+            + '<div style="font-family:var(--font-mono);font-size:8px;color:' + color + ';letter-spacing:0.08em;">' + a.genre + '</div>'
+          + '</div>'
+          + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);text-align:right;line-height:1.4;">'
+            + '<div style="color:var(--led-amber);font-weight:700;">BPM ' + a.bpmRange + '</div>'
+            + '<div>E:' + a.avgEnergy + '/100</div>'
+            + '<div style="color:' + color + ';">' + a.camelot + '</div>'
+          + '</div>'
+        + '</div>'
+        // Energy bar
+        + '<div style="height:2px;background:var(--surface-3);margin-bottom:6px;overflow:hidden;">'
+          + '<div style="height:100%;width:' + energyPct + '%;background:' + color + ';transition:width 0.3s;"></div>'
+        + '</div>'
+        // Track count chip
+        + '<div style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);margin-bottom:5px;">' + a.tracks + ' tracks in genre</div>'
+        // Profile
+        + '<div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);line-height:1.4;margin-bottom:4px;">' + a.profile + '</div>'
+        // Track list (hidden by default)
+        + '<div class="artist-track-list" style="display:none;border-top:1px solid var(--border-subtle);padding-top:6px;margin-top:6px;">'
+          + a.trackList.map(t => '<div style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);padding:2px 0;border-bottom:1px solid var(--border-subtle);">' + t + '</div>').join('')
+        + '</div>'
+        + '<div style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);margin-top:5px;text-align:center;" class="artist-expand-hint">▼ tracks</div>'
+      + '</div>';
+
     card.addEventListener('click', () => {
       expanded = !expanded;
       const tl = card.querySelector('.artist-track-list');
       const hint = card.querySelector('.artist-expand-hint');
+      const bg = card.querySelector('.artist-bg-wrap');
       tl.style.display = expanded ? 'block' : 'none';
-      hint.textContent = expanded ? '▲ Hide tracks' : '▼ Show all tracks';
+      hint.textContent = expanded ? '▲ hide' : '▼ tracks';
+      bg.style.opacity = expanded ? '0.28' : '0.18';
     });
     container.appendChild(card);
   });
