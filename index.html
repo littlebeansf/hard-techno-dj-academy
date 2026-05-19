@@ -1,17 +1,265 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTDJ Academy — Hard Techno DJ School</title>
-    <meta name="description" content="Learn to become a hard techno DJ. Interactive genre guides, virtual DJ deck, beat studio, and progressive curriculum covering hard techno, acid, schranz, and hardcore." />
-    <meta property="og:title" content="HTDJ Academy — Hard Techno DJ School" />
-    <meta property="og:description" content="Master hard techno from genre theory to live mixing and track composition." />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23080808'/><circle cx='16' cy='16' r='13' fill='none' stroke='%2300f5ff' stroke-width='2'/><circle cx='16' cy='16' r='4' fill='%2300f5ff'/><line x1='16' y1='3' x2='16' y2='12' stroke='%2300f5ff' stroke-width='1.5'/></svg>" />
-    <script type="module" crossorigin src="/hard-techno-dj-academy/assets/index-DXj5CG9E.js"></script>
-    <link rel="stylesheet" crossorigin href="/hard-techno-dj-academy/assets/index-tqtQbyWE.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTDJ ACADEMY</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&family=Space+Grotesk:wght@300;400&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --border: #2a2a2a;
+  --text-primary: #ffffff;
+  --text-dim: #888888;
+  --text-ghost: #444444;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-ui: 'Space Grotesk', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  overflow-x: hidden;
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.035;
+}
+
+/* Scanline sweep */
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.04) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100vh); }
+}
+
+/* Main content */
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.content {
+  position: absolute;
+  left: max(8vw, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+/* Logo */
+.logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(80px, 15vw, 200px);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  text-shadow:
+    1px 1px 0 rgba(255,255,255,0.06),
+    2px 2px 0 rgba(0,0,0,0.9),
+    3px 3px 0 rgba(0,0,0,0.7),
+    4px 4px 0 rgba(0,0,0,0.5),
+    -1px -1px 0 rgba(255,255,255,0.03);
+  user-select: none;
+  margin-bottom: clamp(16px, 2.5vw, 32px);
+}
+
+/* Rule line */
+.rule {
+  width: clamp(120px, 20vw, 280px);
+  height: 1px;
+  background: var(--border);
+  margin-bottom: clamp(16px, 2.5vw, 28px);
+}
+
+/* Tagline */
+.tagline {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(11px, 1.2vw, 14px);
+  letter-spacing: 0.4em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: clamp(24px, 4vw, 48px);
+}
+
+/* Sub-label */
+.sub-label {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: clamp(12px, 1.1vw, 14px);
+  color: var(--text-ghost);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  max-width: 38ch;
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+
+/* CTA */
+.cta-enter {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(11px, 1.1vw, 13px);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  padding: 14px 32px;
+  transition: none;
+  position: relative;
+  animation: cta-appear 1.2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes cta-appear {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.cta-enter:hover {
+  background: var(--text-primary);
+  color: var(--bg);
+}
+
+/* Door policy — fixed bottom-left */
+.door-policy {
+  position: fixed;
+  bottom: max(5vh, 28px);
+  left: max(8vw, 48px);
+  z-index: 20;
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 0.9vw, 11px);
+  color: var(--text-ghost);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+  transform-origin: left bottom;
+  line-height: 1.8;
+  border-left: 1px solid var(--text-ghost);
+  padding-left: 10px;
+}
+
+/* Footer — fixed bottom-right */
+.footer {
+  position: fixed;
+  bottom: max(5vh, 28px);
+  right: max(8vw, 48px);
+  z-index: 20;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-ghost);
+  letter-spacing: 0.08em;
+  text-align: right;
+  line-height: 1.8;
+}
+
+/* Vertical side text */
+.side-text {
+  position: fixed;
+  right: max(8vw, 48px);
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--text-ghost);
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 20;
+}
+
+/* Horizontal divider accent */
+.logo-accent {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(9px, 0.85vw, 11px);
+  letter-spacing: 0.5em;
+  color: var(--text-ghost);
+  text-transform: uppercase;
+  margin-bottom: clamp(8px, 1.2vw, 16px);
+  animation: fade-in 2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fade-in {
+  0%   { opacity: 0; }
+  60%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Responsive: hide side text on small screens */
+@media (max-width: 600px) {
+  .side-text { display: none; }
+  .door-policy { font-size: 9px; }
+  .footer { font-size: 10px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="content">
+    <span class="logo-accent">Berlin / Frankfurt / Rotterdam</span>
+    <h1 class="logo">HTDJ</h1>
+    <div class="rule"></div>
+    <p class="tagline">Learn.&nbsp;&nbsp;Mix.&nbsp;&nbsp;Destroy.</p>
+    <p class="sub-label">An underground academy for hard techno, acid, schranz, and hardcore. No shortcuts. No mercy.</p>
+    <a href="academy.html" class="cta-enter">Enter the Academy</a>
+  </div>
+</div>
+
+<div class="door-policy">
+  ✕ &nbsp;📵 &nbsp;No Phones<br>
+  ✕ &nbsp;📷 &nbsp;No Photos<br>
+  ✕ &nbsp;No Exceptions
+</div>
+
+<div class="side-text">Berghain · Tresor · Junction 2 · Tresor</div>
+
+<footer class="footer">
+  Hard Techno DJ Academy<br>
+  © 2025 · All rights reserved
+</footer>
+
+</body>
 </html>

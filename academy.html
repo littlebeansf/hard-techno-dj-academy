@@ -1,0 +1,3806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hard Techno DJ Academy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --surface-1: #111111;
+  --surface-2: #1a1a1a;
+  --surface-3: #222222;
+  --border-subtle: #1e1e1e;
+  --border-normal: #2a2a2a;
+  --border-strong: #444444;
+  --text-primary: #e8e8e8;
+  --text-secondary: #888888;
+  --text-dim: #555555;
+  --accent-white: #ffffff;
+  --led-amber: #ff9500;
+  --led-amber-bg: #0a0600;
+  --led-green: #00ff41;
+  --led-green-bg: #001a0a;
+  --error-red: #cc0000;
+  --pad-kick: #cc2200;
+  --pad-snare: #aaaaaa;
+  --pad-hihat: #cc8800;
+  --pad-acid: #440066;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-ui: 'Space Grotesk', sans-serif;
+  --sidebar-width: 220px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════ */
+.app-shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--surface-1);
+  border-right: 1px solid var(--border-normal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-logo {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border-normal);
+}
+
+.sidebar-logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar-logo-mark {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  color: var(--accent-white);
+  line-height: 1;
+  display: block;
+}
+
+.sidebar-logo-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 4px;
+  display: block;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 8px 0;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  position: relative;
+  transition: none;
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+  background: var(--surface-2);
+}
+
+.nav-item.active {
+  color: var(--accent-white);
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent-white);
+  padding-left: 13px;
+}
+
+.nav-item-num {
+  color: var(--text-dim);
+  margin-right: 8px;
+}
+
+.sidebar-bottom {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-normal);
+}
+
+.sidebar-back-link {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.sidebar-back-link:hover {
+  color: var(--text-secondary);
+}
+
+/* MAIN */
+.main-area {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-header {
+  height: 40px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.main-header-section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.main-header-sep {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.main-header-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.content-pane {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Sections */
+.section {
+  display: none;
+  height: 100%;
+}
+
+.section.active {
+  display: block;
+}
+
+/* ═══════════════════════════════════════
+   TYPOGRAPHY + SHARED
+═══════════════════════════════════════ */
+.mono { font-family: var(--font-mono); }
+
+.section-header {
+  padding: 28px 28px 0;
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(20px, 2vw, 28px);
+  color: var(--accent-white);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.section-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+/* Panel */
+.panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 16px;
+}
+
+.panel-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* Button base */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--surface-3);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-normal);
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.btn.active,
+.btn.playing {
+  color: var(--led-amber);
+  border-color: var(--led-amber);
+}
+
+.btn-primary {
+  background: var(--accent-white);
+  color: var(--bg);
+  border-color: var(--accent-white);
+}
+
+.btn-primary:hover {
+  background: var(--text-primary);
+  color: var(--bg);
+}
+
+/* ═══════════════════════════════════════
+   DASHBOARD SECTION
+═══════════════════════════════════════ */
+#section-dashboard {
+  padding: 28px;
+}
+
+.dash-hero {
+  margin-bottom: 28px;
+}
+
+.dash-hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.dash-hero-title {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 40px);
+  color: var(--accent-white);
+  letter-spacing: -0.03em;
+  line-height: 1.0;
+  margin-bottom: 10px;
+}
+
+.dash-hero-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* Progress bar */
+.progress-panel {
+  margin-bottom: 24px;
+}
+
+.progress-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progress-panel-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.progress-panel-count {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-white);
+}
+
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: var(--surface-3);
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent-white);
+  transition: width 0.4s ease;
+}
+
+.progress-pct {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+/* BPM Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: var(--accent-white);
+  display: block;
+  margin-bottom: 2px;
+  letter-spacing: -0.02em;
+}
+
+.stat-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: block;
+}
+
+/* Playlist intel */
+.intel-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.intel-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 14px 16px;
+}
+
+.intel-card-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.intel-card-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--accent-white);
+  letter-spacing: -0.02em;
+}
+
+.intel-card-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  display: block;
+  line-height: 1.5;
+}
+
+/* Module grid */
+.module-grid-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.module-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 14px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.module-card:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.module-card.done {
+  border-color: var(--border-strong);
+}
+
+.module-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.module-card-ch {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  border: 1px solid var(--border-normal);
+  padding: 2px 6px;
+}
+
+.module-card-check {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-white);
+}
+
+.module-card-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.module-card-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Quick actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.quick-action {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 18px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.quick-action:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.quick-action-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.quick-action-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.quick-action-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   CURRICULUM SECTION
+═══════════════════════════════════════ */
+#section-curriculum {
+  padding: 28px;
+}
+
+.curriculum-progress-bar {
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.curriculum-progress-bar .progress-track {
+  flex: 1;
+}
+
+.curriculum-progress-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.chapter-block {
+  margin-bottom: 28px;
+}
+
+.chapter-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.chapter-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-normal);
+  padding: 3px 8px;
+  text-transform: uppercase;
+}
+
+.chapter-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.module-list-item {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  margin-bottom: 6px;
+  padding: 14px 16px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.module-list-item:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+}
+
+.module-list-item.done {
+  border-color: var(--border-strong);
+}
+
+.module-status-icon {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.module-status-icon.done {
+  border-color: var(--border-strong);
+}
+
+.module-status-icon span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.module-status-icon.done span {
+  color: var(--accent-white);
+}
+
+.module-list-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.module-list-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.module-list-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.module-list-type {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.module-list-duration {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+
+.module-list-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.module-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.module-topic-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  border: 1px solid var(--border-subtle);
+  padding: 2px 6px;
+  background: var(--surface-2);
+}
+
+/* ═══════════════════════════════════════
+   MODULE DETAIL (inline)
+═══════════════════════════════════════ */
+#section-module {
+  padding: 28px;
+}
+
+.module-back-btn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.module-back-btn:hover { color: var(--text-primary); }
+
+.module-detail-head {
+  margin-bottom: 24px;
+}
+
+.module-genre-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-normal);
+  padding: 3px 8px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+.module-duration-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.module-complete-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent-white);
+  margin-left: 8px;
+}
+
+.module-detail-tags {
+  margin-bottom: 10px;
+}
+
+.module-detail-title {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 26px);
+  color: var(--accent-white);
+  letter-spacing: -0.02em;
+}
+
+.module-sections {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.module-section-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 18px;
+}
+
+.module-section-card.practice {
+  border-color: var(--border-strong);
+}
+
+.module-section-heading {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.module-section-card.practice .module-section-heading {
+  color: var(--accent-white);
+}
+
+.module-section-content {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.module-section-content strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.practice-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+/* Quiz */
+.quiz-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 20px;
+}
+
+.quiz-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.quiz-panel-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-white);
+  text-transform: uppercase;
+}
+
+.quiz-panel-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.quiz-intro-text {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.quiz-question-block {
+  margin-bottom: 20px;
+}
+
+.quiz-question-text {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: var(--surface-2);
+  border: 1px solid var(--border-subtle);
+  padding: 9px 12px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.quiz-option.selected {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+  background: var(--surface-3);
+}
+
+.quiz-option.correct {
+  border-color: var(--led-green);
+  color: var(--led-green);
+}
+
+.quiz-option.wrong {
+  border-color: var(--error-red);
+  color: var(--error-red);
+}
+
+.quiz-option-letter {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.quiz-result {
+  padding: 14px;
+  border: 1px solid var(--border-normal);
+  margin-top: 14px;
+}
+
+.quiz-result.pass {
+  border-color: var(--led-green);
+}
+
+.quiz-result.fail {
+  border-color: var(--error-red);
+}
+
+.quiz-result-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.quiz-result.pass .quiz-result-title { color: var(--led-green); }
+.quiz-result.fail .quiz-result-title { color: var(--error-red); }
+
+.quiz-result-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════
+   GENRE GUIDE SECTION
+═══════════════════════════════════════ */
+#section-genre {
+  display: none;
+  height: 100%;
+  overflow: hidden;
+}
+
+#section-genre.active {
+  display: flex;
+}
+
+.genre-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-normal);
+  background: var(--surface-1);
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.genre-sidebar-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 0 14px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.genre-nav-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 9px 14px;
+  font-family: var(--font-mono);
+}
+
+.genre-nav-btn:hover {
+  background: var(--surface-2);
+}
+
+.genre-nav-btn.active {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent-white);
+  padding-left: 11px;
+}
+
+.genre-nav-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.genre-nav-btn.active .genre-nav-name { color: var(--text-primary); }
+
+.genre-nav-bpm {
+  font-size: 9px;
+  color: var(--text-dim);
+  display: block;
+  margin-top: 1px;
+}
+
+.genre-compare-btn {
+  margin: 8px 14px 0;
+  border-top: 1px solid var(--border-normal);
+  padding-top: 8px;
+}
+
+.genre-compare-btn button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  padding: 6px 0;
+}
+
+.genre-compare-btn button.active { color: var(--text-secondary); }
+.genre-compare-btn button:hover { color: var(--text-primary); }
+
+.genre-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+}
+
+/* Genre detail */
+.genre-detail-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.genre-detail-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.genre-detail-name {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: clamp(20px, 2.5vw, 30px);
+  color: var(--accent-white);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.genre-detail-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.genre-detail-meta-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.genre-detail-desc {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--text-primary);
+  max-width: 65ch;
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+
+.genre-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.genre-panel-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.char-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.char-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.char-list li::before {
+  content: '▸';
+  color: var(--text-dim);
+  flex-shrink: 0;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.genre-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-normal);
+  padding: 2px 8px;
+  background: var(--surface-2);
+}
+
+.genre-sound-row {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Comparison table */
+.comparison-table-wrap {
+  border: 1px solid var(--border-normal);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.comparison-table th {
+  background: var(--surface-2);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-normal);
+}
+
+.comparison-table td {
+  padding: 9px 12px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  font-weight: 400;
+}
+
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table td:first-child { color: var(--text-secondary); font-weight: 700; }
+.comparison-table tr:nth-child(even) td { background: var(--surface-2); }
+
+/* BPM Spectrum */
+.bpm-spectrum {
+  margin-top: 24px;
+}
+
+.bpm-spectrum-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.bpm-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.bpm-bar-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  width: 130px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.bpm-bar-track {
+  flex: 1;
+  height: 16px;
+  background: var(--surface-2);
+  position: relative;
+}
+
+.bpm-bar-fill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: var(--border-strong);
+  opacity: 0.8;
+}
+
+.bpm-bar-range {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.bpm-axis {
+  display: flex;
+  margin-left: 142px;
+  margin-top: 4px;
+}
+
+.bpm-axis-tick {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+/* ═══════════════════════════════════════
+   DJ DECK SECTION
+═══════════════════════════════════════ */
+#section-djdeck {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.deck-layout {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.deck-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.deck-panel-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+
+/* Track LCD */
+.track-lcd {
+  background: #0a1a0a;
+  border: 1px solid var(--border-subtle);
+  padding: 8px 10px;
+}
+
+.track-lcd select {
+  background: transparent;
+  border: none;
+  color: #44cc44;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  letter-spacing: 0.05em;
+}
+
+.track-lcd select option {
+  background: #0a1a0a;
+  color: #44cc44;
+}
+
+/* BPM display */
+.bpm-display-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bpm-display {
+  background: var(--led-amber-bg);
+  border: 1px solid #1a1000;
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--led-amber);
+  text-shadow: 0 0 8px rgba(255,149,0,0.8), 0 0 20px rgba(255,149,0,0.3);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  min-width: 72px;
+  text-align: center;
+}
+
+.bpm-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* Waveform canvas */
+.waveform-wrap {
+  background: var(--led-green-bg);
+  border: 1px solid var(--border-subtle);
+  height: 52px;
+  overflow: hidden;
+  position: relative;
+}
+
+.waveform-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Platter */
+.platter-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.platter-outer {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platter-disc {
+  width: 180px;
+  height: 180px;
+  border-radius: 50% !important; /* vinyl disc — intentional exception for visual */
+  background:
+    radial-gradient(circle at center,
+      #222 0%,
+      #1a1a1a 8%,
+      #111 9%,
+      #1a1a1a 10%,
+      #111 15%,
+      #1a1a1a 16%,
+      #111 22%,
+      #1a1a1a 23%,
+      #111 30%,
+      #1a1a1a 31%,
+      #111 38%,
+      #1a1a1a 39%,
+      #111 46%,
+      #1a1a1a 47%,
+      #111 100%);
+  border: 2px solid var(--border-normal);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platter-disc.spinning {
+  animation: platter-spin 1.8s linear infinite;
+}
+
+@keyframes platter-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.platter-label {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50% !important;
+  background: var(--surface-2);
+  border: 1px solid var(--border-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platter-label-text {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+/* Tonearm */
+.tonearm {
+  position: absolute;
+  right: -28px;
+  top: -10px;
+  width: 6px;
+  height: 70px;
+  background: var(--border-strong);
+  transform: rotate(-30deg);
+  transform-origin: top center;
+}
+
+.tonearm::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50% !important;
+  background: var(--surface-3);
+  border: 1px solid var(--border-strong);
+}
+
+/* EQ knobs */
+.eq-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.knob-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.knob {
+  width: 48px;
+  height: 48px;
+  border-radius: 50% !important;
+  background: radial-gradient(circle at 35% 35%, #3a3a3a, #0a0a0a);
+  border: 1px solid var(--border-strong);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.knob-indicator {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 2px;
+  height: 12px;
+  background: var(--accent-white);
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+}
+
+.knob-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+/* Pitch fader */
+.pitch-fader-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.pitch-fader-track {
+  position: relative;
+  height: 160px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pitch-fader-bg {
+  width: 6px;
+  height: 100%;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+/* tick marks */
+.pitch-fader-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 15px,
+    var(--border-subtle) 15px,
+    var(--border-subtle) 16px
+  );
+}
+
+.pitch-fader-input {
+  position: absolute;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 24px;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.pitch-fader-thumb {
+  position: absolute;
+  width: 22px;
+  height: 10px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  pointer-events: none;
+  left: 1px;
+}
+
+.pitch-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.pitch-value {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--led-amber);
+  text-shadow: 0 0 6px rgba(255,149,0,0.6);
+}
+
+/* VU Meter */
+.vu-wrap {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 48px;
+  justify-content: center;
+}
+
+.vu-col {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 2px;
+}
+
+.vu-seg {
+  width: 8px;
+  height: 3px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+}
+
+.vu-seg.lit {
+  background: var(--led-amber);
+  border-color: var(--led-amber);
+  box-shadow: 0 0 4px rgba(255,149,0,0.6);
+}
+
+.vu-seg.lit.peak {
+  background: var(--error-red);
+  border-color: var(--error-red);
+  box-shadow: 0 0 4px rgba(204,0,0,0.6);
+}
+
+/* Deck controls */
+.deck-controls {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Mixer center */
+.mixer-center {
+  width: 160px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: stretch;
+}
+
+.mixer-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.mixer-panel-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Crossfader */
+.crossfader-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.crossfader-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+.crossfader-input {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--surface-3);
+  border: 1px solid var(--border-normal);
+  outline: none;
+  cursor: ew-resize;
+}
+
+.crossfader-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 20px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  cursor: ew-resize;
+  border-radius: 0 !important;
+}
+
+.crossfader-input::-moz-range-thumb {
+  width: 16px;
+  height: 20px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  cursor: ew-resize;
+  border-radius: 0 !important;
+}
+
+.master-vol-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.master-vol-input {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-normal);
+  outline: none;
+}
+
+.master-vol-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 16px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.master-vol-input::-moz-range-thumb {
+  width: 12px;
+  height: 16px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════
+   BEAT STUDIO SECTION
+═══════════════════════════════════════ */
+#section-beatstudio {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.studio-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.studio-section-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.studio-title {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--accent-white);
+  letter-spacing: -0.02em;
+}
+
+/* BPM control */
+.bpm-control-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  flex-wrap: wrap;
+}
+
+.bpm-ctrl-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.studio-bpm-display {
+  background: var(--led-amber-bg);
+  border: 1px solid #1a1000;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--led-amber);
+  text-shadow: 0 0 8px rgba(255,149,0,0.8), 0 0 20px rgba(255,149,0,0.3);
+  min-width: 60px;
+  text-align: center;
+}
+
+.bpm-slider {
+  width: 160px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-normal);
+  outline: none;
+  cursor: pointer;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 18px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  border-radius: 0 !important;
+}
+
+.bpm-slider::-moz-range-thumb {
+  width: 12px;
+  height: 18px;
+  background: var(--border-strong);
+  border: 1px solid var(--accent-white);
+  border-radius: 0 !important;
+}
+
+/* Play / stop */
+.studio-play-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50% !important; /* EXCEPTION: brief spec */
+  background: radial-gradient(circle at 35% 35%, var(--border-strong), var(--surface-3));
+  border: 2px solid var(--border-strong);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.studio-play-btn.playing {
+  border-color: var(--led-amber);
+  box-shadow: 0 0 12px rgba(255,149,0,0.3);
+}
+
+.studio-play-btn:active {
+  transform: scale(0.95);
+}
+
+/* Swing control */
+.swing-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.swing-input {
+  width: 80px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  outline: none;
+}
+
+.swing-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 14px;
+  background: var(--border-strong);
+  border: 1px solid var(--border-strong);
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.swing-input::-moz-range-thumb {
+  width: 10px;
+  height: 14px;
+  background: var(--border-strong);
+  border: 1px solid var(--border-strong);
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+/* Step sequencer */
+.sequencer-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.track-row {
+  display: grid;
+  grid-template-columns: 88px 1fr 64px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.track-label-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.track-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.8), 1px 1px 0 rgba(255,255,255,0.06);
+}
+
+.track-type {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 3px;
+  position: relative;
+}
+
+.step-btn {
+  aspect-ratio: 1;
+  min-height: 28px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+  position: relative;
+}
+
+.step-btn:hover { border-color: var(--border-strong); }
+
+.step-btn.active { box-shadow: inset 1px 1px 2px rgba(0,0,0,0.4); }
+
+/* Track-specific active colors */
+.track-kick .step-btn.active    { background: var(--pad-kick);   border-color: #ff3300; }
+.track-snare .step-btn.active   { background: var(--pad-snare);  border-color: #cccccc; }
+.track-hihat .step-btn.active   { background: var(--pad-hihat);  border-color: #ffaa00; }
+.track-openhat .step-btn.active { background: var(--pad-hihat);  border-color: #ffaa00; opacity: 0.7; }
+.track-acid .step-btn.active    { background: var(--pad-acid);   border-color: #660099; }
+.track-clap .step-btn.active    { background: var(--pad-snare);  border-color: #cccccc; opacity: 0.8; }
+
+/* Step position indicator */
+.step-position-bar {
+  position: absolute;
+  top: -2px;
+  width: calc(100% / 16 - 3px);
+  height: 4px;
+  background: var(--accent-white);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.step-position-bar.visible { opacity: 1; }
+
+/* Volume cell */
+.track-vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.track-vol-input {
+  width: 52px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--surface-3);
+  border: 1px solid var(--border-subtle);
+  outline: none;
+}
+
+.track-vol-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 12px;
+  background: var(--border-strong);
+  border: none;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.track-vol-input::-moz-range-thumb {
+  width: 8px;
+  height: 12px;
+  background: var(--border-strong);
+  border: none;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+/* Acid unit */
+.acid-unit {
+  background: var(--surface-2);
+  border: 1px solid var(--border-normal);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.acid-unit-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(180,100,255,0.85);
+  text-transform: uppercase;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.8), 1px 1px 0 rgba(255,255,255,0.06);
+  margin-bottom: 10px;
+}
+
+.acid-knobs-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Pattern save */
+.pattern-save-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border-normal);
+  padding: 14px;
+}
+
+.cassette-input-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cassette-input {
+  background: #f5f0e0;
+  color: #111;
+  border: 1px solid var(--border-normal);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 10px;
+  width: 200px;
+  outline: none;
+}
+
+/* ═══════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-normal); }
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <a href="index.html">
+        <span class="sidebar-logo-mark">HTDJ</span>
+        <span class="sidebar-logo-sub">DJ Academy</span>
+      </a>
+    </div>
+    <div class="sidebar-nav">
+      <button class="nav-item active" data-section="dashboard" onclick="switchSection('dashboard', this)">
+        <span class="nav-item-num">01</span>Dashboard
+      </button>
+      <button class="nav-item" data-section="curriculum" onclick="switchSection('curriculum', this)">
+        <span class="nav-item-num">02</span>Curriculum
+      </button>
+      <button class="nav-item" data-section="genre" onclick="switchSection('genre', this)">
+        <span class="nav-item-num">03</span>Genre Guide
+      </button>
+      <button class="nav-item" data-section="djdeck" onclick="switchSection('djdeck', this)">
+        <span class="nav-item-num">04</span>DJ Deck
+      </button>
+      <button class="nav-item" data-section="beatstudio" onclick="switchSection('beatstudio', this)">
+        <span class="nav-item-num">05</span>Beat Studio
+      </button>
+    </div>
+    <div class="sidebar-bottom">
+      <a href="index.html" class="sidebar-back-link">← Exit Academy</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="main-header">
+      <span class="main-header-section-label" id="header-section-label">Dashboard</span>
+      <span class="main-header-sep">/</span>
+      <span class="main-header-title" id="header-title">Overview</span>
+    </div>
+
+    <div class="content-pane">
+
+      <!-- ══════════ DASHBOARD ══════════ -->
+      <div id="section-dashboard" class="section active">
+        <div style="padding:28px;">
+          <div class="dash-hero">
+            <span class="dash-hero-eyebrow">Welcome to</span>
+            <h1 class="dash-hero-title">HARD TECHNO<br>DJ ACADEMY</h1>
+            <p class="dash-hero-desc">Master hard techno, acid, schranz, and hardcore — from genre theory to live mixing. Learn, practice, compose.</p>
+          </div>
+
+          <div class="progress-panel panel">
+            <div class="progress-panel-header">
+              <span class="progress-panel-label">Overall Progress</span>
+              <span class="progress-panel-count" id="dash-progress-count">0/6 modules</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="dash-progress-fill" style="width:0%"></div>
+            </div>
+            <div class="progress-pct" id="dash-progress-pct">0% complete</div>
+          </div>
+
+          <div class="stats-row" style="margin-top:16px;">
+            <div class="stat-card">
+              <span class="stat-value">140–160</span>
+              <span class="stat-sub">Hard Techno</span>
+              <span class="stat-label">BPM Range</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">150–175</span>
+              <span class="stat-sub">Schranz</span>
+              <span class="stat-label">BPM Range</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">135–155</span>
+              <span class="stat-sub">Acid Techno</span>
+              <span class="stat-label">BPM Range</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">160–220</span>
+              <span class="stat-sub">Hardcore</span>
+              <span class="stat-label">BPM Range</span>
+            </div>
+          </div>
+
+          <!-- Playlist intel -->
+          <div class="intel-row" style="margin-top:16px;">
+            <div class="intel-card">
+              <span class="intel-card-title">Dominant BPM (238 tracks)</span>
+              <div class="intel-card-value">160</div>
+              <span class="intel-card-note">45% of playlist · Stamina management critical</span>
+            </div>
+            <div class="intel-card">
+              <span class="intel-card-title">Dominant Key</span>
+              <div class="intel-card-value">3B</div>
+              <span class="intel-card-note">C# major · Berlin Wheel: 3B→3A→4B→4A (32% of tracks)</span>
+            </div>
+            <div class="intel-card">
+              <span class="intel-card-title">Genre Split</span>
+              <div class="intel-card-value" style="font-size:14px;line-height:1.6">Hard Techno 44%<br>Frenchcore 28%</div>
+              <span class="intel-card-note">Acid Techno 20% · Hardcore 4% · Industrial 4%</span>
+            </div>
+            <div class="intel-card">
+              <span class="intel-card-title">Opener Strategy</span>
+              <div class="intel-card-value" style="font-size:16px">93–125</div>
+              <span class="intel-card-note">Never open at full tempo · Build energy gradually</span>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <div class="module-grid-title">Learning Modules</div>
+            <div class="module-grid" id="dash-module-grid">
+              <!-- injected by JS -->
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <button class="quick-action" onclick="switchSection('djdeck', document.querySelector('[data-section=djdeck]'))">
+              <span class="quick-action-icon">🎛</span>
+              <span class="quick-action-title">Open DJ Deck</span>
+              <span class="quick-action-desc">Practice mixing with dual decks and crossfader</span>
+            </button>
+            <button class="quick-action" onclick="switchSection('beatstudio', document.querySelector('[data-section=beatstudio]'))">
+              <span class="quick-action-icon">🥁</span>
+              <span class="quick-action-title">Beat Studio</span>
+              <span class="quick-action-desc">Compose kick patterns and acid basslines</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ CURRICULUM ══════════ -->
+      <div id="section-curriculum" class="section">
+        <div style="padding:28px;">
+          <div class="section-header" style="padding:0;margin-bottom:20px;">
+            <span class="section-label">Course</span>
+            <h1 class="section-title">Curriculum</h1>
+            <p class="section-desc">A progressive course from genre theory to DJ performance and track composition.</p>
+          </div>
+
+          <div class="curriculum-progress-bar">
+            <div class="progress-track" style="flex:1;">
+              <div class="progress-fill" id="curr-progress-fill" style="width:0%"></div>
+            </div>
+            <span class="curriculum-progress-count" id="curr-progress-count">0/6 complete</span>
+          </div>
+
+          <div id="curriculum-list">
+            <!-- injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ MODULE DETAIL ══════════ -->
+      <div id="section-module" class="section">
+        <div style="padding:28px;">
+          <button class="module-back-btn" onclick="switchSection('curriculum', document.querySelector('[data-section=curriculum]'))">
+            ← Back to Curriculum
+          </button>
+          <div id="module-detail-content">
+            <!-- injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ GENRE GUIDE ══════════ -->
+      <div id="section-genre" class="section" style="height:calc(100vh - 40px);overflow:hidden;display:none;flex-direction:row;">
+
+        <div class="genre-sidebar">
+          <span class="genre-sidebar-title">Genres</span>
+          <div id="genre-nav-list">
+            <!-- injected by JS -->
+          </div>
+          <div class="genre-compare-btn">
+            <button id="comparison-btn" onclick="showGenreComparison()">Comparison Table</button>
+          </div>
+        </div>
+
+        <div class="genre-content" id="genre-content-area">
+          <!-- injected by JS -->
+        </div>
+
+      </div>
+
+      <!-- ══════════ DJ DECK ══════════ -->
+      <div id="section-djdeck" class="section">
+
+        <div class="deck-layout">
+          <!-- DECK A -->
+          <div class="deck-panel">
+            <div class="deck-panel-label">Deck A</div>
+
+            <div class="track-lcd">
+              <select id="deck-a-track" onchange="deckSelectTrack('a', this.value)">
+                <option value="0">Berlin Concrete — 148 BPM</option>
+                <option value="1">Acid Protocol — 142 BPM</option>
+                <option value="2">Frankfurt Noise — 162 BPM</option>
+                <option value="3">Industrial Mind — 152 BPM</option>
+                <option value="4">Gabber Storm — 180 BPM</option>
+              </select>
+            </div>
+
+            <div class="bpm-display-wrap">
+              <div>
+                <div class="bpm-display" id="bpm-a">148</div>
+              </div>
+              <span class="bpm-label">BPM</span>
+              <div style="margin-left:auto;">
+                <div class="vu-wrap" id="vu-a"></div>
+              </div>
+            </div>
+
+            <div class="waveform-wrap">
+              <canvas class="waveform-canvas" id="waveform-a"></canvas>
+            </div>
+
+            <div class="platter-wrap">
+              <div class="platter-outer">
+                <div class="platter-disc" id="platter-a">
+                  <div class="platter-label">
+                    <span class="platter-label-text">A</span>
+                  </div>
+                </div>
+                <div class="tonearm"></div>
+              </div>
+            </div>
+
+            <div class="eq-row">
+              <div class="knob-wrap">
+                <div class="knob" id="knob-a-hi">
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="knob-label">HI</span>
+              </div>
+              <div class="knob-wrap">
+                <div class="knob" id="knob-a-mid">
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="knob-label">MID</span>
+              </div>
+              <div class="knob-wrap">
+                <div class="knob" id="knob-a-lo">
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="knob-label">LO</span>
+              </div>
+              <div class="pitch-fader-wrap">
+                <span class="pitch-value" id="pitch-a-val">0%</span>
+                <div class="pitch-fader-track">
+                  <div class="pitch-fader-bg"></div>
+                  <input type="range" class="pitch-fader-input" id="pitch-a" min="-8" max="8" value="0" step="0.1" oninput="updatePitch('a', this.value)">
+                  <div class="pitch-fader-thumb" id="pitch-a-thumb" style="top:calc(50% - 5px);"></div>
+                </div>
+                <span class="pitch-label">PITCH</span>
+              </div>
+            </div>
+
+            <div class="deck-controls">
+              <button class="btn" id="btn-play-a" onclick="deckTogglePlay('a')">▶ PLAY</button>
+              <button class="btn" onclick="deckStop('a')">■ STOP</button>
+              <button class="btn" onclick="deckCue('a')">CUE</button>
+            </div>
+          </div>
+
+          <!-- MIXER CENTER -->
+          <div class="mixer-center">
+            <div class="mixer-panel">
+              <span class="mixer-panel-label">Mixer</span>
+
+              <div class="crossfader-wrap">
+                <div class="crossfader-row">
+                  <span>A</span><span>B</span>
+                </div>
+                <input type="range" class="crossfader-input" id="crossfader" min="0" max="100" value="50" oninput="updateCrossfader(this.value)">
+              </div>
+
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Master Vol</div>
+                <div class="master-vol-wrap">
+                  <input type="range" class="master-vol-input" id="master-vol" min="0" max="100" value="80" oninput="updateMasterVol(this.value)">
+                  <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);" id="master-vol-display">80%</span>
+                </div>
+              </div>
+
+              <div>
+                <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px;">Sync</div>
+                <button class="btn" style="width:100%;" onclick="syncDecks()">SYNC BPM</button>
+              </div>
+
+              <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:center;" id="mix-status">READY</div>
+            </div>
+          </div>
+
+          <!-- DECK B -->
+          <div class="deck-panel">
+            <div class="deck-panel-label">Deck B</div>
+
+            <div class="track-lcd">
+              <select id="deck-b-track" onchange="deckSelectTrack('b', this.value)">
+                <option value="2">Frankfurt Noise — 162 BPM</option>
+                <option value="0">Berlin Concrete — 148 BPM</option>
+                <option value="1">Acid Protocol — 142 BPM</option>
+                <option value="3">Industrial Mind — 152 BPM</option>
+                <option value="4">Gabber Storm — 180 BPM</option>
+              </select>
+            </div>
+
+            <div class="bpm-display-wrap">
+              <div>
+                <div class="bpm-display" id="bpm-b">162</div>
+              </div>
+              <span class="bpm-label">BPM</span>
+              <div style="margin-left:auto;">
+                <div class="vu-wrap" id="vu-b"></div>
+              </div>
+            </div>
+
+            <div class="waveform-wrap">
+              <canvas class="waveform-canvas" id="waveform-b"></canvas>
+            </div>
+
+            <div class="platter-wrap">
+              <div class="platter-outer">
+                <div class="platter-disc" id="platter-b">
+                  <div class="platter-label">
+                    <span class="platter-label-text">B</span>
+                  </div>
+                </div>
+                <div class="tonearm"></div>
+              </div>
+            </div>
+
+            <div class="eq-row">
+              <div class="knob-wrap">
+                <div class="knob" id="knob-b-hi">
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="knob-label">HI</span>
+              </div>
+              <div class="knob-wrap">
+                <div class="knob" id="knob-b-mid">
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="knob-label">MID</span>
+              </div>
+              <div class="knob-wrap">
+                <div class="knob" id="knob-b-lo">
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="knob-label">LO</span>
+              </div>
+              <div class="pitch-fader-wrap">
+                <span class="pitch-value" id="pitch-b-val">0%</span>
+                <div class="pitch-fader-track">
+                  <div class="pitch-fader-bg"></div>
+                  <input type="range" class="pitch-fader-input" id="pitch-b" min="-8" max="8" value="0" step="0.1" oninput="updatePitch('b', this.value)">
+                  <div class="pitch-fader-thumb" id="pitch-b-thumb" style="top:calc(50% - 5px);"></div>
+                </div>
+                <span class="pitch-label">PITCH</span>
+              </div>
+            </div>
+
+            <div class="deck-controls">
+              <button class="btn" id="btn-play-b" onclick="deckTogglePlay('b')">▶ PLAY</button>
+              <button class="btn" onclick="deckStop('b')">■ STOP</button>
+              <button class="btn" onclick="deckCue('b')">CUE</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ══════════ BEAT STUDIO ══════════ -->
+      <div id="section-beatstudio" class="section">
+
+        <div class="bpm-control-wrap">
+          <span class="bpm-ctrl-label">BPM</span>
+          <div class="studio-bpm-display" id="studio-bpm-display">138</div>
+          <input type="range" class="bpm-slider" id="studio-bpm-slider" min="100" max="200" value="138" oninput="updateStudioBpm(this.value)">
+
+          <button class="studio-play-btn" id="studio-play-btn" onclick="toggleStudioPlay()">▶</button>
+
+          <span class="bpm-ctrl-label" style="margin-left:8px;">Swing</span>
+          <input type="range" class="swing-input" id="swing-slider" min="0" max="50" value="0" oninput="updateSwing(this.value)">
+          <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);" id="swing-display">0%</span>
+        </div>
+
+        <div class="sequencer-panel">
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px;">Step Sequencer — 16 Steps</div>
+
+          <!-- KICK -->
+          <div class="track-row track-kick">
+            <div class="track-label-cell">
+              <span class="track-name">KICK</span>
+              <span class="track-type">Distorted 4/4</span>
+            </div>
+            <div class="steps-row" id="steps-kick">
+              <div class="step-position-bar" id="pos-kick"></div>
+            </div>
+            <div class="track-vol-wrap">
+              <input type="range" class="track-vol-input" min="0" max="100" value="90" oninput="setTrackVol('kick', this.value)">
+            </div>
+          </div>
+
+          <!-- SNARE -->
+          <div class="track-row track-snare">
+            <div class="track-label-cell">
+              <span class="track-name">SNARE</span>
+              <span class="track-type">Noise + BP Filter</span>
+            </div>
+            <div class="steps-row" id="steps-snare">
+              <div class="step-position-bar" id="pos-snare"></div>
+            </div>
+            <div class="track-vol-wrap">
+              <input type="range" class="track-vol-input" min="0" max="100" value="70" oninput="setTrackVol('snare', this.value)">
+            </div>
+          </div>
+
+          <!-- HI-HAT -->
+          <div class="track-row track-hihat">
+            <div class="track-label-cell">
+              <span class="track-name">HI-HAT</span>
+              <span class="track-type">Closed</span>
+            </div>
+            <div class="steps-row" id="steps-hihat">
+              <div class="step-position-bar" id="pos-hihat"></div>
+            </div>
+            <div class="track-vol-wrap">
+              <input type="range" class="track-vol-input" min="0" max="100" value="65" oninput="setTrackVol('hihat', this.value)">
+            </div>
+          </div>
+
+          <!-- OPEN HH -->
+          <div class="track-row track-openhat">
+            <div class="track-label-cell">
+              <span class="track-name">OPEN HH</span>
+              <span class="track-type">Open Hat</span>
+            </div>
+            <div class="steps-row" id="steps-openhat">
+              <div class="step-position-bar" id="pos-openhat"></div>
+            </div>
+            <div class="track-vol-wrap">
+              <input type="range" class="track-vol-input" min="0" max="100" value="55" oninput="setTrackVol('openhat', this.value)">
+            </div>
+          </div>
+
+          <!-- ACID -->
+          <div class="track-row track-acid">
+            <div class="track-label-cell">
+              <span class="track-name">ACID</span>
+              <span class="track-type">TB-303 Saw</span>
+            </div>
+            <div class="steps-row" id="steps-acid">
+              <div class="step-position-bar" id="pos-acid"></div>
+            </div>
+            <div class="track-vol-wrap">
+              <input type="range" class="track-vol-input" min="0" max="100" value="75" oninput="setTrackVol('acid', this.value)">
+            </div>
+          </div>
+
+          <!-- CLAP -->
+          <div class="track-row track-clap">
+            <div class="track-label-cell">
+              <span class="track-name">CLAP</span>
+              <span class="track-type">3× Burst</span>
+            </div>
+            <div class="steps-row" id="steps-clap">
+              <div class="step-position-bar" id="pos-clap"></div>
+            </div>
+            <div class="track-vol-wrap">
+              <input type="range" class="track-vol-input" min="0" max="100" value="60" oninput="setTrackVol('clap', this.value)">
+            </div>
+          </div>
+        </div>
+
+        <!-- ACID UNIT -->
+        <div class="acid-unit">
+          <div class="acid-unit-title">TB-303 Acid Bassline Unit</div>
+          <div class="acid-knobs-row">
+            <div class="knob-wrap">
+              <div class="knob" id="acid-cutoff-knob">
+                <div class="knob-indicator" id="acid-cutoff-ind"></div>
+              </div>
+              <span class="knob-label">CUTOFF</span>
+            </div>
+            <div class="knob-wrap">
+              <div class="knob" id="acid-res-knob">
+                <div class="knob-indicator" id="acid-res-ind"></div>
+              </div>
+              <span class="knob-label">RESONANCE</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-left:16px;">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;">Cutoff</div>
+              <input type="range" id="acid-cutoff" min="0" max="100" value="60" style="width:140px;" class="bpm-slider" oninput="updateAcidCutoff(this.value)">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-top:6px;">Resonance</div>
+              <input type="range" id="acid-res" min="0" max="100" value="40" style="width:140px;" class="bpm-slider" oninput="updateAcidRes(this.value)">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-left:8px;">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;">Waveform</div>
+              <select id="acid-wave" style="background:var(--surface-3);color:var(--text-secondary);border:1px solid var(--border-normal);font-family:var(--font-mono);font-size:10px;padding:4px 8px;outline:none;">
+                <option value="sawtooth">Sawtooth</option>
+                <option value="square">Square</option>
+              </select>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-top:6px;">Dist</div>
+              <input type="range" id="acid-dist" min="0" max="100" value="30" style="width:100px;" class="bpm-slider" oninput="updateAcidDist(this.value)">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-left:8px;align-items:flex-start;">
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;">Cutoff Val</div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:rgba(180,100,255,0.85);" id="acid-cutoff-val">60%</span>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;color:var(--text-dim);text-transform:uppercase;margin-top:4px;">Res Val</div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:rgba(180,100,255,0.85);" id="acid-res-val">40%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pattern save -->
+        <div class="pattern-save-panel">
+          <div class="panel-label">Pattern Storage</div>
+          <div class="cassette-input-wrap">
+            <input type="text" class="cassette-input" id="pattern-name-input" placeholder="Pattern name...">
+            <button class="btn" onclick="savePattern()">SAVE</button>
+            <button class="btn" onclick="loadPattern()">LOAD</button>
+            <button class="btn" onclick="clearPattern()">CLEAR</button>
+          </div>
+          <div id="saved-patterns-list" style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"></div>
+        </div>
+
+      </div><!-- /beatstudio -->
+
+    </div><!-- /content-pane -->
+  </div><!-- /main-area -->
+</div><!-- /app-shell -->
+
+<script>
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════ */
+const sectionTitles = {
+  dashboard:  ['Dashboard', 'Overview'],
+  curriculum: ['Curriculum', 'Course Modules'],
+  module:     ['Curriculum', 'Module Detail'],
+  genre:      ['Genre Guide', 'Subgenre Reference'],
+  djdeck:     ['DJ Deck', 'Dual Deck Mixer'],
+  beatstudio: ['Beat Studio', 'Step Sequencer'],
+};
+
+function switchSection(id, navBtn) {
+  // hide all sections
+  document.querySelectorAll('.section').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = '';
+  });
+
+  // show target
+  const target = document.getElementById('section-' + id);
+  if (!target) return;
+  target.classList.add('active');
+
+  // genre needs flex
+  if (id === 'genre') {
+    target.style.display = 'flex';
+  }
+
+  // update nav
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  if (navBtn) navBtn.classList.add('active');
+
+  // mark the parent nav item for module
+  if (id === 'module') {
+    document.querySelector('[data-section=curriculum]').classList.add('active');
+  }
+
+  // header
+  const titles = sectionTitles[id] || ['Academy', ''];
+  document.getElementById('header-section-label').textContent = titles[0];
+  document.getElementById('header-title').textContent = titles[1];
+
+  // init sections on first visit
+  if (id === 'djdeck' && !window._deckInited) { initDJDeck(); window._deckInited = true; }
+  if (id === 'beatstudio' && !window._studioInited) { initBeatStudio(); window._studioInited = true; }
+  if (id === 'genre' && !window._genreInited) { initGenreGuide(); window._genreInited = true; }
+}
+
+/* ═══════════════════════════════════════════════════
+   PROGRESS (localStorage)
+═══════════════════════════════════════════════════ */
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('htdj_progress') || '{}'); } catch { return {}; }
+}
+function saveProgress(p) {
+  localStorage.setItem('htdj_progress', JSON.stringify(p));
+}
+function markModuleComplete(id, score) {
+  const p = getProgress();
+  p[id] = { completed: true, score, completedAt: new Date().toISOString() };
+  saveProgress(p);
+  refreshProgressUI();
+}
+function refreshProgressUI() {
+  const p = getProgress();
+  const completedIds = Object.keys(p).filter(k => p[k].completed);
+  const total = 6;
+  const count = completedIds.length;
+  const pct = Math.round((count / total) * 100);
+  const fill = document.getElementById('dash-progress-fill');
+  const ct = document.getElementById('dash-progress-count');
+  const pt = document.getElementById('dash-progress-pct');
+  const cf = document.getElementById('curr-progress-fill');
+  const cc = document.getElementById('curr-progress-count');
+  if (fill) fill.style.width = pct + '%';
+  if (ct) ct.textContent = count + '/' + total + ' modules';
+  if (pt) pt.textContent = pct + '% complete';
+  if (cf) cf.style.width = pct + '%';
+  if (cc) cc.textContent = count + '/' + total + ' complete';
+  // update module cards
+  document.querySelectorAll('.module-card[data-mod-id], .module-list-item[data-mod-id]').forEach(el => {
+    const mid = el.dataset.modId;
+    const done = !!p[mid]?.completed;
+    el.classList.toggle('done', done);
+    const check = el.querySelector('.module-card-check');
+    if (check) check.textContent = done ? '✓' : '';
+    const icon = el.querySelector('.module-status-icon');
+    if (icon) {
+      icon.classList.toggle('done', done);
+      icon.querySelector('span').textContent = done ? '✓' : '○';
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   CURRICULUM DATA
+═══════════════════════════════════════════════════ */
+const CURRICULUM = [
+  {
+    chapter: 1, title: 'Foundation: The World of Hard Techno',
+    modules: [
+      { id: 'intro',  title: 'What is Hard Techno?', duration: '15 min', type: 'lesson', desc: 'History, culture, underground roots, and why hard techno is having a global resurgence.', topics: ['Origins in Berlin & Detroit', 'The underground scene', 'Modern revival (2018–present)', 'Key festivals & clubs'] },
+      { id: 'genres', title: 'Genre Map',             duration: '20 min', type: 'lesson + quiz', desc: 'Deep dive into Hard Techno, Acid Techno, Schranz, Hardcore, and Industrial Techno.', topics: ['Subgenre differences', 'BPM ranges', 'Sound signatures', 'Genre quiz'] },
+    ]
+  },
+  {
+    chapter: 2, title: 'Rhythm & Technique',
+    modules: [
+      { id: 'bpm',    title: 'BPM & Rhythm Theory',      duration: '25 min', type: 'lesson + interactive', desc: 'Understand tempo, the 4/4 grid, kick drum patterns, and how rhythm drives a crowd.', topics: ['4/4 time signature', 'Kick patterns (straight vs swing)', 'Hi-hat programming', 'Using the beat sequencer'] },
+      { id: 'mixing', title: 'DJ Mixing Fundamentals',   duration: '30 min', type: 'lesson + practice',     desc: 'Beatmatching, harmonic mixing, EQ techniques, and working with transitions.', topics: ['Beatmatching theory', 'Phrasing & counting bars', 'EQ kill switches', 'Transition techniques'] },
+    ]
+  },
+  {
+    chapter: 3, title: 'Sound Design & Composition',
+    modules: [
+      { id: 'acid',        title: 'The Acid Sound (TB-303)', duration: '25 min', type: 'lesson + synth',   desc: 'Master the TB-303\'s resonance filter and create hypnotic acid basslines.', topics: ['TB-303 history', 'Resonance & cutoff', 'Accent & slide programming', 'Creating acid patterns'] },
+      { id: 'composition', title: 'Composing a Track',       duration: '40 min', type: 'lesson + studio', desc: 'Learn song structure, layering techniques, and build your first hard techno pattern.', topics: ['Intro-Build-Drop-Outro structure', 'Layering kicks & basslines', 'Using tension & release', 'Export & mix preparation'] },
+    ]
+  },
+];
+
+const MODULE_CONTENT = {
+  intro: {
+    title: 'What is Hard Techno?', genre: 'Hard Techno', duration: '15 min',
+    sections: [
+      { heading: 'Origins', content: 'Hard Techno emerged from the crossroads of Detroit\'s minimal machine music and Berlin\'s dark industrial underground. While Detroit birthed techno in the late 1980s with artists like Derrick May and Kevin Saunderson, Berlin\'s club scene pushed it harder, faster, and darker throughout the 1990s and 2000s.\n\nThe genre distinguishes itself from regular techno through its use of heavy distortion on kick drums, aggressive mid-range filtering, and a generally menacing, industrial atmosphere. Think of it as techno that hit the gym, then started listening to industrial music.' },
+      { heading: 'The Sound Signature', type: 'sound', content: 'Hard Techno is defined by several sonic characteristics:\n\n• The Kick: Distorted, heavy, often with harmonic content from clipping. It hits hard and has weight.\n• The Bassline: Usually a looping, filtered, aggressive bass pattern — not acid-squelchy but dark and industrial.\n• The Atmosphere: Dark, minimal, with industrial textures — noise sweeps, metallic percussion, dystopian pads.\n• The Mix: Loud, compressed, with the kick dominating everything.' },
+      { heading: 'The Underground Scene', content: 'Hard Techno lives in dark warehouses, Berghain side rooms, and outdoor raves. It\'s deeply tied to rave culture — counterculture, freedom, collective experience. Key venues include Berghain (Berlin), Junction 2 (London), Tresor (Berlin), and countless illegal raves across Europe.\n\nThe scene is characterized by anonymity, dark visual aesthetics, and an anti-mainstream ethos. The culture values the music above all else.' },
+      { heading: 'Modern Revival (2018–Present)', content: 'Hard Techno experienced a massive global resurgence from around 2018–2020, partly driven by social media and platforms like TikTok where younger audiences discovered the genre. Artists like SPFDJ, Alignment, and KI/KI brought new energy while keeping the underground essence intact.\n\nThe modern scene blends classic Berlin aesthetics with new production techniques — more polished but equally aggressive.' },
+    ],
+    quiz: [
+      { question: 'What city is most associated with the development of Hard Techno?', options: ['Detroit', 'Berlin', 'Rotterdam', 'London'], correct: 1 },
+      { question: 'Which sound element most defines Hard Techno vs regular Techno?', options: ['Faster BPM', 'Piano chords', 'Distorted kick drum', 'Tropical samples'], correct: 2 },
+      { question: 'What is the typical BPM range for Hard Techno?', options: ['120–130', '130–140', '140–160', '160–180'], correct: 2 },
+    ]
+  },
+  genres: {
+    title: 'Genre Map', genre: 'Mixed', duration: '20 min',
+    sections: [
+      { heading: 'The Family Tree', content: 'Hard Techno sits within a broader \'Hard Dance\' family. Understanding the relationships between subgenres is essential for any DJ.\n\nTechno (Detroit, 130–138 BPM)\n└─ Hard Techno (Berlin, 140–160 BPM) — distorted, industrial\n   └─ Schranz (Frankfurt, 150–175 BPM) — extreme minimalism\n      └─ Industrial Techno (global, 140–165 BPM) — EBM influence\n\nAcid House (Chicago, 120–130 BPM)\n└─ Acid Techno (Berlin/London, 135–155 BPM) — TB-303 meets techno\n\nRave/House (UK/US, 1990s)\n└─ Hardcore/Gabber (Rotterdam, 160–220 BPM) — extreme speed' },
+      { heading: 'Hard Techno vs Schranz', type: 'comparison', content: 'These two are often confused. The key differences:\n\nHard Techno:\n• Has more arrangement — builds, breaks, transitions\n• Uses melodic elements (filtered synths, pads)\n• Sits at 140–160 BPM\n• More accessible to mainstream techno fans\n• Think: SPFDJ, KI/KI, Alignment\n\nSchranz:\n• Extreme minimalism — just kick, noise, and atmosphere\n• Very little melodic content\n• Faster (150–175 BPM)\n• Often hypnotic through sheer repetition\n• Think: Chris Liebing (classic era), Steve Stoll' },
+      { heading: 'Acid Techno: The 303 Sound', content: 'Acid Techno is defined by the Roland TB-303 Bass Line synthesizer — originally meant to simulate bass guitar, it became iconic for its squelching, resonant filter sound when played incorrectly.\n\nKey parameters of the 303:\n• Cutoff Frequency: How bright/dark the sound is\n• Resonance: The \'squelch\' — higher = more acid character\n• Accent: Emphasizes certain notes for groove\n• Slide: Notes glide between each other\n\nThe acid bassline is looped and modulated over time, creating a hypnotic, almost psychedelic effect.' },
+      { heading: 'Hardcore and Gabber', content: 'At the extreme end sits Hardcore (also called Gabber, from Dutch slang for \'friend\'). Originating in Rotterdam in the early 1990s, it pushed techno to its limits:\n\n• BPM: 160–220+ (some sub-genres exceed 300 BPM)\n• Kick: So heavily distorted it becomes a square wave — literally clipped audio\n• Culture: Working-class, anti-establishment, rave identity\n• Aesthetic: Tracksuits, shaved heads, raw energy\n\nGabber was one of the first \'extreme\' electronic genres and influenced everything from industrial techno to breakcore.' },
+    ],
+    quiz: [
+      { question: 'What synthesizer is essential to Acid Techno?', options: ['Moog Minimoog', 'Roland TB-303', 'Korg MS-20', 'Roland Juno-106'], correct: 1 },
+      { question: 'Which city gave birth to Gabber/Hardcore?', options: ['Amsterdam', 'Berlin', 'Rotterdam', 'Chicago'], correct: 2 },
+      { question: 'What makes Schranz different from Hard Techno?', options: ['Lower BPM', 'More melody', 'Extreme minimalism & higher BPM', 'Piano chords'], correct: 2 },
+    ]
+  },
+  bpm: {
+    title: 'BPM & Rhythm Theory', genre: 'Hard Techno', duration: '25 min',
+    sections: [
+      { heading: 'What is BPM?', content: 'BPM stands for Beats Per Minute. It\'s the tempo of music — how many kicks (beats) occur per minute. Hard Techno runs at 140–160 BPM. At 150 BPM, there are exactly 2.5 beats per second.\n\nWhy does BPM matter for DJs?\n• Beatmatching: You need to match the BPM of two tracks to mix them\n• Energy management: Higher BPM = more energy (generally)\n• Genre identification: BPM is one of the first ways to identify a genre' },
+      { heading: 'The 4/4 Grid', type: 'code', content: 'Almost all techno uses a 4/4 time signature — 4 beats per bar. The kick drum typically hits on every beat (1, 2, 3, 4). This is called a \'4-on-the-floor\' pattern.\n\nBasic Hard Techno drum pattern:\nKICK:  X . . . X . . . X . . . X . . .\nSNARE: . . . . X . . . . . . . X . . .\nHAT:   . X . X . X . X . X . X . X . X\n\nBar = 4 beats. Phrase = 8 or 16 bars. This structure governs everything in DJing.' },
+      { heading: 'Hard Techno Kick Patterns', content: 'Hard Techno kicks are more than just 4-on-the-floor. Common variations:\n\n• Straight: Clean 4/4, every beat\n• Double kick: Two kicks at the end of a bar (boom-boom)\n• Distorted roll: Rapid 16th note kicks going into a drop\n• Swing: Slight humanization of hat/percussion timing\n\nThe kick is the foundation — everything else sits on top of it.' },
+      { heading: 'Practice: Use the Beat Studio', type: 'practice', content: 'Now it\'s time to apply this knowledge. Head to the Beat Studio and:\n\n1. Set the BPM to 145 and listen to a basic 4-on-the-floor pattern\n2. Add hi-hats on the 8th notes\n3. Add a snare on beats 2 and 4\n4. Try distorting the kick\n\nGo to Beat Studio to try it.' },
+    ],
+    quiz: [
+      { question: 'What does 4/4 time signature mean?', options: ['4 bars total', '4 beats per bar', '4 BPM', '4 instruments'], correct: 1 },
+      { question: 'At 150 BPM, how many beats occur per second?', options: ['150', '15', '2.5', '60'], correct: 2 },
+      { question: 'What is \'4-on-the-floor\'?', options: ['4 floors in a club', 'Kick on every beat', '4 decks playing simultaneously', '4 bar loop'], correct: 1 },
+    ]
+  },
+  mixing: {
+    title: 'DJ Mixing Fundamentals', genre: 'Hard Techno', duration: '30 min',
+    sections: [
+      { heading: 'Beatmatching', content: 'Beatmatching is the art of aligning the tempos and beat positions of two tracks so they play in sync. It\'s the fundamental DJ skill.\n\nSteps to beatmatch:\n1. Identify the BPM of both tracks\n2. Adjust the pitch/speed of Deck B to match Deck A\n3. Find the beat — align the kick drums so they hit simultaneously\n4. Fine-tune using pitch bend (nudge platter forward/back)\n5. Listen on headphones before bringing it into the mix' },
+      { heading: 'Phrasing & Bar Counting', content: 'Music is structured in phrases — groups of 4, 8, or 16 bars. In hard techno, phrases are usually 8 or 16 bars long. Big moments (drops, builds, breakdowns) happen at phrase boundaries.\n\nCounting bars: Count the kick drum: 1-2-3-4, 2-2-3-4, 3-2-3-4... Each group of 4 counts is one bar.\n\nFor a clean mix, start your mix-in point at the beginning of a phrase. Mixing in the middle of a phrase creates an awkward, unstructured transition.' },
+      { heading: 'EQ Techniques', content: 'EQ is your mixing weapon. The mixer has 3 bands per channel:\n• High (HI): Cymbals, hi-hats, brightness\n• Mid: Vocals, synths, presence\n• Low (LO): Kick drum, bass\n\nThe EQ Kill Switch technique:\nWhen transitioning:\n1. Bring in Deck B with the Low (bass/kick) cut to minimum\n2. Let the melodies/hi-hats blend for 8–16 bars\n3. Gradually cut the Low on Deck A\n4. Bring up the Low on Deck B\n5. Phase out Deck A completely\n\nThis prevents double-kick clashing, which sounds muddy.' },
+      { heading: 'Practice: DJ Deck', type: 'practice', content: 'Go to the DJ Deck to practice:\n1. Load both decks\n2. Sync the BPM (or try manual beatmatching)\n3. Use headphone cue to preview\n4. Try an EQ transition using the low-cut method' },
+    ],
+    quiz: [
+      { question: 'What is beatmatching?', options: ['Choosing same key tracks', 'Aligning tempo and beat position of two tracks', 'Using the same samples', 'Playing both tracks at same volume'], correct: 1 },
+      { question: 'Why cut the LOW EQ when blending in a new track?', options: ['To make it louder', 'To prevent double-kick clashing', 'To add more bass', 'To sync the BPM'], correct: 1 },
+      { question: 'How many bars is a typical phrase in hard techno?', options: ['1–2 bars', '4–5 bars', '8 or 16 bars', '32–64 bars'], correct: 2 },
+    ]
+  },
+  acid: {
+    title: 'The Acid Sound (TB-303)', genre: 'Acid Techno', duration: '25 min',
+    sections: [
+      { heading: 'The Roland TB-303', content: 'The Roland TB-303 Bass Line was released in 1981 as a budget bass guitar simulator. It failed commercially and was discontinued in 1984. Second-hand units were bought cheap by Chicago DJs who discovered that when you program it \'wrong\' — with high resonance, gliding notes, and random patterns — it created a completely new, hypnotic sound.\n\nThe \'acid\' name came from a Chicago DJ named DJ Pierre: his track \'Acid Tracks\' (1987) with Phuture is widely cited as the first acid house record.' },
+      { heading: 'Key Parameters', type: 'sound', content: 'Understanding the 303\'s parameters is essential for creating authentic acid sounds:\n\n• Cutoff Frequency: Controls the filter — low values = dark/muffled, high = bright/harsh\n• Resonance (Accent): The \'squelch\' — cranked up, it creates the signature squelch\n• Waveform: Sawtooth (buzzy, harsh) or Square (hollow, round)\n• Slide: Notes glide/portamento between pitches\n• Accent: Emphasizes certain notes — louder with a faster filter sweep\n• Decay: How long the filter stays open after a note\n\nThe magic happens when you automate the Cutoff while the pattern loops.' },
+      { heading: 'Programming Patterns', content: 'Acid patterns are typically 16 steps (one bar at 4/4). The key is:\n\n1. Use short notes (8th or 16th)\n2. Add accent on unexpected beats\n3. Use slide to connect notes for the \'wah\' effect\n4. Repeat the pattern and slowly open/close the filter\n5. Subtle pitch variations create hypnosis\n\nClassic acid patterns use chromatic movement — small intervals (half-steps) create that characteristic \'crawling\' feeling.' },
+      { heading: 'Practice: Acid in Beat Studio', type: 'practice', content: 'In the Beat Studio, the Acid Bassline sequencer lets you:\n• Program a 16-step pattern\n• Set the Cutoff and Resonance\n• Add accent and slide to specific steps\n• Automate the filter over time\n\nStart with a simple 4-note pattern, crank the resonance to 80%, and modulate the cutoff as it plays.' },
+    ],
+    quiz: [
+      { question: 'What year was the TB-303 originally released?', options: ['1977', '1981', '1987', '1992'], correct: 1 },
+      { question: 'Which parameter creates the signature \'squelch\' of acid?', options: ['Cutoff Frequency', 'Resonance', 'Decay', 'Waveform type'], correct: 1 },
+      { question: 'What is \'slide\' on the TB-303?', options: ['A performance move', 'Glide/portamento between notes', 'Distortion effect', 'A type of rhythm'], correct: 1 },
+    ]
+  },
+  composition: {
+    title: 'Composing a Hard Techno Track', genre: 'Hard Techno', duration: '40 min',
+    sections: [
+      { heading: 'Track Structure', content: 'A typical hard techno track follows this structure:\n\nIntro      [0:00–2:00]  Kick + minimal elements, building\nBuild      [2:00–4:00]  Add layers, increase tension\nMain Drop  [4:00–6:30]  Full arrangement, peak energy\nBreakdown  [6:30–8:00]  Remove elements, create space\nRe-entry   [8:00–10:00] Build again for DJ mix-out\nOutro      [10:00+]     Strip back to basics\n\nDJs need long intros and outros (2 min+) to mix cleanly. Always produce with this in mind.' },
+      { heading: 'Layering Technique', content: 'Hard Techno tracks are built through layering — adding and removing elements:\n\nFoundation Layer (always present):\n• 4/4 kick drum\n• Sub-bass tone under the kick\n\nRhythm Layer (add early):\n• Hi-hats (8th or 16th note patterns)\n• Percussion loops (industrial claps, metal hits)\n\nMelodic Layer (add/remove for tension):\n• Bassline (filtered, distorted)\n• Synth stabs or pads (sparse)\n• Acid line if using\n\nEffect Layer (sparing):\n• Noise sweeps, risers\n• Reverb/delay FX throws\n• Drum fills at phrase transitions' },
+      { heading: 'Tension & Release', content: 'The most powerful tool in hard techno production is tension and release:\n\nCreating Tension:\n• Build a high-pass filter on the kick over 4–8 bars\n• Introduce a rising noise sweep\n• Cut the bassline suddenly\n• Add a triplet kick roll leading into a drop\n• Raise resonance on a filter\n\nReleasing Tension:\n• Drop ALL filters simultaneously\n• Bring the full kick back\n• Open the bassline filter fully\n• Hit a breakdown abruptly\n\nThis contrast is what creates memorable moments on the dancefloor.' },
+      { heading: 'Practice: Build a Track', type: 'practice', content: 'In the Beat Studio:\n1. Set BPM to 148\n2. Program a 4/4 kick pattern\n3. Add hi-hats\n4. Add an acid bassline\n5. Use the filter automation to build tension\n6. Save your pattern and experiment with variations' },
+    ],
+    quiz: [
+      { question: 'Why do hard techno tracks need long intros/outros?', options: ['For artistic purposes', 'To allow DJs to mix cleanly', 'For club PA announcements', 'Because the genre requires it'], correct: 1 },
+      { question: 'What is layering in track composition?', options: ['Playing all sounds at once', 'Adding and removing elements progressively', 'Only using 1 sound at a time', 'Copying another track'], correct: 1 },
+      { question: 'Which technique creates maximum tension before a drop?', options: ['Adding more reverb', 'Lowering the volume', 'Noise sweep + filter build + rhythm roll', 'Slowing the BPM'], correct: 2 },
+    ]
+  },
+};
+
+/* ── Dashboard module grid init ── */
+function initDashboardGrid() {
+  const grid = document.getElementById('dash-module-grid');
+  const progress = getProgress();
+  grid.innerHTML = '';
+  CURRICULUM.forEach(ch => {
+    ch.modules.forEach(mod => {
+      const done = !!progress[mod.id]?.completed;
+      const card = document.createElement('button');
+      card.className = 'module-card' + (done ? ' done' : '');
+      card.dataset.modId = mod.id;
+      card.innerHTML = `
+        <div class="module-card-head">
+          <span class="module-card-ch">Ch.${ch.chapter}</span>
+          <span class="module-card-check">${done ? '✓' : ''}</span>
+        </div>
+        <div class="module-card-title">${mod.title}</div>
+        <div class="module-card-desc">${mod.desc}</div>
+      `;
+      card.onclick = () => openModule(mod.id);
+      grid.appendChild(card);
+    });
+  });
+}
+
+/* ── Curriculum list init ── */
+function initCurriculumList() {
+  const container = document.getElementById('curriculum-list');
+  const progress = getProgress();
+  container.innerHTML = '';
+  CURRICULUM.forEach(ch => {
+    const block = document.createElement('div');
+    block.className = 'chapter-block';
+    let itemsHTML = '';
+    ch.modules.forEach(mod => {
+      const done = !!progress[mod.id]?.completed;
+      itemsHTML += `
+        <button class="module-list-item${done ? ' done' : ''}" data-mod-id="${mod.id}" onclick="openModule('${mod.id}')">
+          <div class="module-status-icon${done ? ' done' : ''}"><span>${done ? '✓' : '○'}</span></div>
+          <div class="module-list-body">
+            <div class="module-list-row">
+              <span class="module-list-title">${mod.title}</span>
+              <span class="module-list-type">${mod.type}</span>
+              <span class="module-list-duration">${mod.duration}</span>
+            </div>
+            <div class="module-list-desc">${mod.desc}</div>
+            <div class="module-topics">${mod.topics.map(t => `<span class="module-topic-tag">${t}</span>`).join('')}</div>
+          </div>
+        </button>`;
+    });
+    block.innerHTML = `
+      <div class="chapter-header">
+        <span class="chapter-badge">Ch.${ch.chapter}</span>
+        <span class="chapter-title">${ch.title}</span>
+      </div>
+      ${itemsHTML}`;
+    container.appendChild(block);
+  });
+}
+
+/* ── Open module detail ── */
+function openModule(id) {
+  const mod = MODULE_CONTENT[id];
+  if (!mod) return;
+
+  const progress = getProgress();
+  const isCompleted = !!progress[id]?.completed;
+
+  let quizState = {
+    started: false,
+    answers: {},
+    submitted: false,
+  };
+
+  function renderModuleDetail() {
+    const sectionsHTML = mod.sections.map(s => {
+      let cls = 'module-section-card';
+      if (s.type === 'practice') cls += ' practice';
+      let practiceActions = '';
+      if (s.type === 'practice') {
+        practiceActions = `<div class="practice-actions">
+          <button class="btn btn-primary" onclick="switchSection('beatstudio', document.querySelector('[data-section=beatstudio]'))">Open Beat Studio</button>
+          <button class="btn" onclick="switchSection('djdeck', document.querySelector('[data-section=djdeck]'))">Open DJ Deck</button>
+        </div>`;
+      }
+      return `<div class="${cls}">
+        <div class="module-section-heading">${s.heading}</div>
+        <div class="module-section-content">${s.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
+        ${practiceActions}
+      </div>`;
+    }).join('');
+
+    let quizHTML = '';
+    if (mod.quiz) {
+      if (!quizState.started) {
+        quizHTML = `<div class="quiz-panel">
+          <div class="quiz-panel-header">
+            <span class="quiz-panel-title">Knowledge Check</span>
+            <span class="quiz-panel-count">${mod.quiz.length} questions</span>
+          </div>
+          <p class="quiz-intro-text">Test what you've learned with a short quiz. Complete it to mark this module as done.</p>
+          <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+        </div>`;
+      } else {
+        const questionsHTML = mod.quiz.map((q, qi) => {
+          const opts = q.options.map((opt, oi) => {
+            let cls = 'quiz-option';
+            if (quizState.submitted) {
+              if (oi === q.correct) cls += ' correct';
+              else if (quizState.answers[qi] === oi && oi !== q.correct) cls += ' wrong';
+            } else if (quizState.answers[qi] === oi) {
+              cls += ' selected';
+            }
+            return `<button class="${cls}" ${quizState.submitted ? 'disabled' : ''} onclick="selectAnswer(${qi}, ${oi})">
+              <span class="quiz-option-letter">${String.fromCharCode(65 + oi)}.</span>
+              ${opt}
+            </button>`;
+          }).join('');
+          return `<div class="quiz-question-block">
+            <div class="quiz-question-text">${qi + 1}. ${q.question}</div>
+            ${opts}
+          </div>`;
+        }).join('');
+
+        let resultHTML = '';
+        if (quizState.submitted) {
+          const correct = mod.quiz.filter((q, i) => quizState.answers[i] === q.correct).length;
+          const score = Math.round((correct / mod.quiz.length) * 100);
+          const pass = score >= 70;
+          resultHTML = `<div class="quiz-result ${pass ? 'pass' : 'fail'}">
+            <div class="quiz-result-title">${pass ? '✓ Module Complete!' : '✗ Try Again'} — ${correct}/${mod.quiz.length} correct (${score}%)</div>
+            <div class="quiz-result-desc">${pass ? 'Great work. This module is marked as complete in your progress.' : 'Review the material and retake the quiz to complete this module.'}</div>
+            ${!pass ? `<button class="btn" style="margin-top:8px;" onclick="retryQuiz()">Retry Quiz</button>` : ''}
+          </div>`;
+        }
+
+        const allAnswered = Object.keys(quizState.answers).length >= mod.quiz.length;
+        quizHTML = `<div class="quiz-panel">
+          <div class="quiz-panel-header">
+            <span class="quiz-panel-title">Knowledge Check</span>
+            <span class="quiz-panel-count">${mod.quiz.length} questions</span>
+          </div>
+          ${questionsHTML}
+          ${!quizState.submitted ? `<button class="btn btn-primary" ${!allAnswered ? 'disabled style="opacity:0.4;"' : ''} onclick="submitQuiz('${id}')">Submit Answers</button>` : ''}
+          ${resultHTML}
+        </div>`;
+      }
+    }
+
+    document.getElementById('module-detail-content').innerHTML = `
+      <div class="module-detail-head">
+        <div class="module-detail-tags">
+          <span class="module-genre-tag">${mod.genre}</span>
+          <span class="module-duration-tag">${mod.duration}</span>
+          ${isCompleted ? '<span class="module-complete-tag">✓ Completed</span>' : ''}
+        </div>
+        <h1 class="module-detail-title">${mod.title}</h1>
+      </div>
+      <div class="module-sections">${sectionsHTML}</div>
+      ${quizHTML}
+    `;
+
+    window.startQuiz = () => { quizState.started = true; renderModuleDetail(); };
+    window.selectAnswer = (qi, oi) => {
+      if (quizState.submitted) return;
+      quizState.answers[qi] = oi;
+      renderModuleDetail();
+    };
+    window.submitQuiz = (moduleId) => {
+      quizState.submitted = true;
+      const correct = mod.quiz.filter((q, i) => quizState.answers[i] === q.correct).length;
+      const score = Math.round((correct / mod.quiz.length) * 100);
+      if (score >= 70) markModuleComplete(moduleId, score);
+      renderModuleDetail();
+      initDashboardGrid();
+      initCurriculumList();
+    };
+    window.retryQuiz = () => {
+      quizState = { started: true, answers: {}, submitted: false };
+      renderModuleDetail();
+    };
+  }
+
+  renderModuleDetail();
+
+  // Switch to module view
+  document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = ''; });
+  document.getElementById('section-module').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-section=curriculum]').classList.add('active');
+  document.getElementById('header-section-label').textContent = 'Curriculum';
+  document.getElementById('header-title').textContent = mod.title;
+}
+
+/* ═══════════════════════════════════════════════════
+   GENRE GUIDE
+═══════════════════════════════════════════════════ */
+const GENRES = [
+  { id: 'hard-techno', name: 'Hard Techno', bpm: '140–160', origin: 'Berlin, Germany / Detroit influence', decade: 'Late 1990s–2000s, revival 2018+', description: 'Hard Techno is characterized by its aggressive, industrial-influenced sound with heavy kicks, distorted baselines, and minimal but punishing arrangements. It sits at the crossroads of traditional techno and industrial club music.', characteristics: ['Heavy distorted 4/4 kick drum (often clipping)', 'Stripped-back, hypnotic structure', 'Dark, industrial atmosphere', 'Filtered, aggressive mid-range', 'Tension-and-release arrangement style', 'Common swing/shuffle patterns on hats'], keyArtists: ['Paula Temple', 'KI/KI', 'SPFDJ', 'Alignment', 'Phase Fatale', 'Dax J'], labels: ['Filth on Acid', 'Junction 2', 'Odd Recordings'], influence: 'Industrial Techno, Schranz, EBM', sound: 'Deep, distorted, aggressive, hypnotic', emoji: '⚡' },
+  { id: 'acid-techno', name: 'Acid Techno', bpm: '135–155', origin: 'Chicago / London / Berlin', decade: '1987 (Chicago House) → 1990s Techno fusion', description: 'Acid Techno fuses the squelching TB-303 basslines of Chicago Acid House with the relentless drive of techno. The 303\'s resonance filter creates the signature \'wah-wah\' sound that defines the genre.', characteristics: ['TB-303 synthesizer basslines (real or emulated)', 'High resonance filter sweeps', 'Squelching, modulated bass patterns', 'Looping, hypnotic repetition', 'Psychedelic, trance-inducing energy', 'Shorter notes with accent programming'], keyArtists: ['Josh Wink', 'Robert Armani', 'DJ Rush', 'Emmanuel Top', 'Hardfloor'], labels: ['Djax-Up-Beats', 'Peacefrog', 'Bush Records'], influence: 'Acid House, Chicago Techno, Rave culture', sound: 'Squelchy, hypnotic, psychedelic, driving', emoji: '🎛' },
+  { id: 'schranz', name: 'Schranz', bpm: '150–175', origin: 'Germany (Frankfurt/Cologne)', decade: 'Late 1990s–2000s', description: 'Schranz is an extreme subgenre — relentlessly fast, brutally minimal, and mercilessly hard. Born from Frankfurt\'s club scene, it strips techno down to its rawest elements: distorted kick, noise, and nothing else. Pure sonic brutalism.', characteristics: ['Very high BPM (150–175+)', 'Extremely minimal arrangement', 'Distorted, processed kick that dominates the mix', 'Near absence of melodic elements', 'Industrial noise textures and drones', 'Hypnotic through repetition alone'], keyArtists: ['Chris Liebing', 'Marco Bailey', 'Steve Stoll', 'Industrial Strength'], labels: ['CLR', 'Machinery', 'Primate'], influence: 'Industrial, EBM, Hard Techno', sound: 'Brutal, minimal, relentless, industrial', emoji: '🔩' },
+  { id: 'industrial-techno', name: 'Industrial Techno', bpm: '140–165', origin: 'Berlin / Detroit', decade: '2010s–present', description: 'Industrial Techno draws from EBM (Electronic Body Music), noise, and post-industrial music. It uses mechanical rhythms, metallic textures, and dystopian atmospheres. Think factory floors, apocalyptic soundscapes, and relentless repetition.', characteristics: ['Metallic percussion textures', 'EBM-influenced basslines', 'Noise and industrial drones', 'Post-apocalyptic atmospheres', 'Mechanical, robotic groove', 'Cinematic, dark, dystopian mood'], keyArtists: ['Surgeon', 'Paula Temple', 'Ancient Methods', 'Rebekah', 'Blawan'], labels: ['Mord', 'Token', 'Jealous God'], influence: 'EBM, Noise, Post-Industrial, Dark Ambient', sound: 'Metallic, dystopian, EBM-influenced', emoji: '🏭' },
+  { id: 'hardcore', name: 'Hardcore / Gabber', bpm: '160–220', origin: 'Rotterdam, Netherlands', decade: 'Early 1990s–present', description: 'Gabber emerged from Rotterdam\'s rave scene — faster, harder, louder than anything that came before. The kick is heavily distorted and clipped to a square wave, creating an aggressive, almost inhuman sound. A subcultural movement as much as a music genre.', characteristics: ['Extreme BPM (160–220+)', 'Heavily distorted/square-wave kick', 'Rave-derived synthesis and samples', 'Call-and-response MC culture', 'Anti-establishment, working-class roots', 'Strong visual and fashion identity'], keyArtists: ['DJ Paul', 'Lenny Dee', 'The Prodigy', 'Rotterdam Terror Corps', 'Angerfist'], labels: ['Rotterdam Records', 'Industrial Strength', 'Masters of Hardcore'], influence: 'Rave, House, Industrial', sound: 'Extreme, distorted, fast, aggressive', emoji: '💥' },
+  { id: 'noise-techno', name: 'Noise / Power Electronics', bpm: 'Variable', origin: 'Japan / UK', decade: '1980s–present', description: 'At the outer fringes, Noise and Power Electronics push techno into pure sonic extremity. Rhythm may be present or absent. The goal is texture, volume, and disorientation. Not a DJ genre per se, but a deep influence on industrial techno and harsh noise walls.', characteristics: ['Heavy use of feedback and distortion', 'Rhythmic or non-rhythmic structures', 'Extreme volume dynamics', 'Confrontational performance art aspect', 'Anti-melodic, texture-focused', 'Often live performance-oriented'], keyArtists: ['Merzbow', 'Whitehouse', 'Death Grips', 'Container', 'Prurient'], labels: ['Hospital Productions', 'Subtext'], influence: 'Industrial, Punk, Experimental', sound: 'Abrasive, extreme, avant-garde', emoji: '📢' },
+];
+
+const COMPARISON_TABLE = [
+  { aspect: 'BPM Range',    values: { 'Hard Techno': '140–160', 'Acid Techno': '135–155', 'Schranz': '150–175', 'Hardcore': '160–220' } },
+  { aspect: 'Kick Style',   values: { 'Hard Techno': 'Distorted, heavy 4/4', 'Acid Techno': 'Punchy, slight distortion', 'Schranz': 'Extreme distortion, dominant', 'Hardcore': 'Square-wave clipped' } },
+  { aspect: 'Key Element',  values: { 'Hard Techno': 'Distorted baseline', 'Acid Techno': 'TB-303 acid line', 'Schranz': 'Noise + minimal kick', 'Hardcore': 'Speed + distortion' } },
+  { aspect: 'Mood',         values: { 'Hard Techno': 'Dark, aggressive', 'Acid Techno': 'Hypnotic, psychedelic', 'Schranz': 'Brutal, minimal', 'Hardcore': 'Extreme, chaotic' } },
+  { aspect: 'Danceability', values: { 'Hard Techno': 'High', 'Acid Techno': 'High', 'Schranz': 'Medium (niche)', 'Hardcore': 'High (for fans)' } },
+  { aspect: 'Origin',       values: { 'Hard Techno': 'Berlin / Detroit', 'Acid Techno': 'Chicago / Berlin', 'Schranz': 'Frankfurt', 'Hardcore': 'Rotterdam' } },
+];
+
+let activeGenreId = 'hard-techno';
+let genreView = 'detail';
+
+function initGenreGuide() {
+  buildGenreNav();
+  showGenreDetail(activeGenreId);
+}
+
+function buildGenreNav() {
+  const list = document.getElementById('genre-nav-list');
+  list.innerHTML = GENRES.map(g => `
+    <button class="genre-nav-btn${g.id === activeGenreId ? ' active' : ''}" id="gnav-${g.id}" onclick="showGenreDetail('${g.id}')">
+      <div>
+        <span class="genre-nav-name">${g.name}</span>
+        <span class="genre-nav-bpm">${g.bpm} BPM</span>
+      </div>
+    </button>`).join('');
+}
+
+function showGenreDetail(id) {
+  activeGenreId = id;
+  genreView = 'detail';
+  document.getElementById('comparison-btn').classList.remove('active');
+  document.querySelectorAll('.genre-nav-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('gnav-' + id);
+  if (btn) btn.classList.add('active');
+
+  const g = GENRES.find(x => x.id === id);
+  if (!g) return;
+
+  document.getElementById('genre-content-area').innerHTML = `
+    <div class="genre-detail-head">
+      <div class="genre-detail-icon">${g.emoji}</div>
+      <div>
+        <div class="genre-detail-name">${g.name}</div>
+        <div class="genre-detail-meta">
+          <span class="genre-detail-meta-item">BPM: ${g.bpm}</span>
+          <span class="genre-detail-meta-item">Origin: ${g.origin}</span>
+          <span class="genre-detail-meta-item">Era: ${g.decade}</span>
+        </div>
+      </div>
+    </div>
+    <p class="genre-detail-desc">${g.description}</p>
+    <div class="genre-detail-grid">
+      <div class="panel">
+        <span class="genre-panel-title">Key Characteristics</span>
+        <ul class="char-list">${g.characteristics.map(c => `<li>${c}</li>`).join('')}</ul>
+      </div>
+      <div>
+        <div class="panel" style="margin-bottom:8px;">
+          <span class="genre-panel-title">Key Artists</span>
+          <div class="tag-list">${g.keyArtists.map(a => `<span class="genre-tag">${a}</span>`).join('')}</div>
+        </div>
+        <div class="panel">
+          <span class="genre-panel-title">Labels</span>
+          <div class="tag-list">${g.labels.map(l => `<span class="genre-tag">${l}</span>`).join('')}</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <span class="genre-panel-title">Sound Profile</span>
+      <div class="genre-sound-row">
+        <span>Sound: ${g.sound}</span>
+        <span>Influenced by: ${g.influence}</span>
+      </div>
+    </div>`;
+}
+
+function showGenreComparison() {
+  genreView = 'comparison';
+  document.getElementById('comparison-btn').classList.add('active');
+  document.querySelectorAll('.genre-nav-btn').forEach(b => b.classList.remove('active'));
+
+  const cols = ['Hard Techno', 'Acid Techno', 'Schranz', 'Hardcore'];
+  const tableRows = COMPARISON_TABLE.map((row, i) => `<tr>
+    <td>${row.aspect}</td>
+    ${cols.map(c => `<td>${row.values[c] || '—'}</td>`).join('')}
+  </tr>`).join('');
+
+  const bpmBars = [
+    { name: 'Techno',         bpmMin: 120, bpmMax: 135 },
+    { name: 'Acid Techno',    bpmMin: 135, bpmMax: 155 },
+    { name: 'Hard Techno',    bpmMin: 140, bpmMax: 160 },
+    { name: 'Schranz',        bpmMin: 150, bpmMax: 175 },
+    { name: 'Hardcore/Gabber',bpmMin: 160, bpmMax: 220 },
+  ].map(g => {
+    const totalRange = 220 - 120;
+    const left = ((g.bpmMin - 120) / totalRange) * 100;
+    const width = ((g.bpmMax - g.bpmMin) / totalRange) * 100;
+    return `<div class="bpm-bar-row">
+      <span class="bpm-bar-label">${g.name}</span>
+      <div class="bpm-bar-track">
+        <div class="bpm-bar-fill" style="left:${left}%;width:${width}%;"></div>
+      </div>
+      <span class="bpm-bar-range">${g.bpmMin}–${g.bpmMax}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('genre-content-area').innerHTML = `
+    <h1 class="section-title" style="margin-bottom:6px;">Genre Comparison</h1>
+    <p class="section-desc" style="margin-bottom:20px;">Side-by-side breakdown of the main hard dance subgenres.</p>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <thead><tr>
+          <th>Aspect</th>
+          ${cols.map(c => `<th>${c}</th>`).join('')}
+        </tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    <div class="bpm-spectrum">
+      <span class="bpm-spectrum-title">BPM Spectrum</span>
+      ${bpmBars}
+      <div class="bpm-axis">
+        ${[120,140,160,180,200,220].map(b => `<span class="bpm-axis-tick">${b}</span>`).join('')}
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════
+   DJ DECK — AUDIO ENGINE
+═══════════════════════════════════════════════════ */
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+const TRACKS = [
+  { name: 'Berlin Concrete',  bpm: 148 },
+  { name: 'Acid Protocol',    bpm: 142 },
+  { name: 'Frankfurt Noise',  bpm: 162 },
+  { name: 'Industrial Mind',  bpm: 152 },
+  { name: 'Gabber Storm',     bpm: 180 },
+];
+
+const deckState = {
+  a: { playing: false, trackIdx: 0, pitch: 0, eq: { hi: 0, mid: 0, lo: 0 }, intervalId: null, step: 0, masterGain: null, hiShelf: null, peaking: null, loShelf: null, vuLevel: 0, vuDir: 1 },
+  b: { playing: false, trackIdx: 2, pitch: 0, eq: { hi: 0, mid: 0, lo: 0 }, intervalId: null, step: 0, masterGain: null, hiShelf: null, peaking: null, loShelf: null, vuLevel: 0, vuDir: 1 },
+};
+
+let crossfaderVal = 50;
+let masterVolVal = 0.8;
+
+function makeDeckChain(deck) {
+  const ctx = getAudioCtx();
+  if (deck.masterGain) return;
+  deck.masterGain = ctx.createGain();
+  deck.hiShelf = ctx.createBiquadFilter();
+  deck.hiShelf.type = 'highshelf';
+  deck.hiShelf.frequency.value = 8000;
+  deck.peaking = ctx.createBiquadFilter();
+  deck.peaking.type = 'peaking';
+  deck.peaking.frequency.value = 1000;
+  deck.peaking.Q.value = 1;
+  deck.loShelf = ctx.createBiquadFilter();
+  deck.loShelf.type = 'lowshelf';
+  deck.loShelf.frequency.value = 200;
+  deck.masterGain.connect(deck.hiShelf);
+  deck.hiShelf.connect(deck.peaking);
+  deck.peaking.connect(deck.loShelf);
+  deck.loShelf.connect(ctx.destination);
+}
+
+function deckGainForDeck(id) {
+  const cf = crossfaderVal / 100;
+  const vol = masterVolVal;
+  if (id === 'a') return vol * Math.cos(cf * Math.PI / 2);
+  return vol * Math.sin(cf * Math.PI / 2);
+}
+
+function playDeckKick(deck) {
+  const ctx = getAudioCtx();
+  makeDeckChain(deck);
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(0.9, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+  const osc = ctx.createOscillator();
+  osc.frequency.setValueAtTime(180, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
+  const ws = ctx.createWaveShaper();
+  const n = 256, curve = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const x = i * 2 / n - 1; curve[i] = (Math.PI + 0.6 * 256) * x / (Math.PI + 0.6 * 256 * Math.abs(x)); }
+  ws.curve = curve;
+  osc.connect(ws); ws.connect(g); g.connect(deck.masterGain);
+  deck.masterGain.gain.setValueAtTime(deckGainForDeck(deck === deckState.a ? 'a' : 'b'), ctx.currentTime);
+  osc.start(); osc.stop(ctx.currentTime + 0.4);
+}
+
+function playDeckHat(deck) {
+  const ctx = getAudioCtx();
+  makeDeckChain(deck);
+  const bufSz = ctx.sampleRate * 0.04;
+  const buf = ctx.createBuffer(1, bufSz, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSz; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource(); src.buffer = buf;
+  const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 8000;
+  const g = ctx.createGain(); g.gain.setValueAtTime(0.3, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+  src.connect(hp); hp.connect(g); g.connect(deck.masterGain);
+  deck.masterGain.gain.setValueAtTime(deckGainForDeck(deck === deckState.a ? 'a' : 'b'), ctx.currentTime);
+  src.start();
+}
+
+function initDJDeck() {
+  // Build VU meters
+  ['a','b'].forEach(id => {
+    const el = document.getElementById('vu-' + id);
+    el.innerHTML = '';
+    for (let c = 0; c < 2; c++) {
+      const col = document.createElement('div');
+      col.className = 'vu-col';
+      for (let i = 0; i < 12; i++) {
+        const seg = document.createElement('div');
+        seg.className = 'vu-seg' + (i >= 10 ? ' peak' : '');
+        col.appendChild(seg);
+      }
+      el.appendChild(col);
+    }
+  });
+
+  // Init knob interactions
+  ['a','b'].forEach(id => {
+    ['hi','mid','lo'].forEach(band => {
+      setupKnob(document.getElementById(`knob-${id}-${band}`), (val) => {
+        deckState[id].eq[band] = val;
+        applyEQ(id);
+      });
+    });
+  });
+
+  // Pitch fader
+  ['a','b'].forEach(id => {
+    const input = document.getElementById('pitch-' + id);
+    input.oninput = () => updatePitch(id, input.value);
+  });
+
+  drawWaveform('a');
+  drawWaveform('b');
+
+  // VU animation
+  setInterval(() => {
+    ['a','b'].forEach(id => {
+      const state = deckState[id];
+      if (state.playing) {
+        state.vuLevel += state.vuDir * (Math.random() * 2 + 0.5);
+        if (state.vuLevel > 11) state.vuDir = -1;
+        if (state.vuLevel < 2) state.vuDir = 1;
+        updateVU(id, Math.round(state.vuLevel));
+      } else {
+        state.vuLevel = Math.max(0, state.vuLevel - 1);
+        updateVU(id, Math.round(state.vuLevel));
+      }
+    });
+  }, 80);
+}
+
+function updateVU(id, level) {
+  const segs = document.querySelectorAll(`#vu-${id} .vu-seg`);
+  segs.forEach((seg, i) => {
+    const segIdx = i % 12;
+    seg.classList.toggle('lit', segIdx < level);
+  });
+}
+
+function drawWaveform(id) {
+  const canvas = document.getElementById('waveform-' + id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth || 200;
+  canvas.height = canvas.offsetHeight || 52;
+  ctx.fillStyle = '#001a0a';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = '#00ff41';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  const mid = canvas.height / 2;
+  for (let x = 0; x < canvas.width; x++) {
+    const amp = Math.random() * 16 + 4;
+    if (x === 0) ctx.moveTo(x, mid + (Math.random() - 0.5) * amp * 2);
+    else ctx.lineTo(x, mid + (Math.random() - 0.5) * amp * 2);
+  }
+  ctx.stroke();
+}
+
+function deckTogglePlay(id) {
+  const state = deckState[id];
+  const ctx = getAudioCtx();
+  if (ctx.state === 'suspended') ctx.resume();
+  makeDeckChain(state);
+  if (state.playing) {
+    clearInterval(state.intervalId);
+    state.playing = false;
+    document.getElementById('platter-' + id).classList.remove('spinning');
+    document.getElementById('btn-play-' + id).classList.remove('playing');
+    document.getElementById('btn-play-' + id).textContent = '▶ PLAY';
+  } else {
+    state.playing = true;
+    state.step = 0;
+    document.getElementById('platter-' + id).classList.add('spinning');
+    document.getElementById('btn-play-' + id).classList.add('playing');
+    document.getElementById('btn-play-' + id).textContent = '■ STOP';
+    const bpm = TRACKS[state.trackIdx].bpm * (1 + state.pitch / 100);
+    const interval = (60 / bpm / 4) * 1000;
+    state.intervalId = setInterval(() => {
+      const step = state.step % 16;
+      if ([0,4,8,12].includes(step)) playDeckKick(state);
+      if (step % 2 === 0) playDeckHat(state);
+      state.step++;
+    }, interval);
+  }
+  document.getElementById('mix-status').textContent = (deckState.a.playing && deckState.b.playing) ? 'MIXING' : (deckState.a.playing || deckState.b.playing) ? 'PLAYING' : 'READY';
+}
+
+function deckStop(id) {
+  const state = deckState[id];
+  clearInterval(state.intervalId);
+  state.playing = false;
+  state.step = 0;
+  document.getElementById('platter-' + id).classList.remove('spinning');
+  document.getElementById('btn-play-' + id).classList.remove('playing');
+  document.getElementById('btn-play-' + id).textContent = '▶ PLAY';
+  document.getElementById('mix-status').textContent = 'READY';
+}
+
+function deckCue(id) {
+  const state = deckState[id];
+  if (!state.playing) {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    makeDeckChain(state);
+    playDeckKick(state);
+  }
+}
+
+function deckSelectTrack(id, idx) {
+  deckState[id].trackIdx = parseInt(idx);
+  const bpm = TRACKS[parseInt(idx)].bpm;
+  document.getElementById('bpm-' + id).textContent = bpm;
+  if (deckState[id].playing) {
+    deckStop(id);
+    deckTogglePlay(id);
+  }
+}
+
+function updatePitch(id, val) {
+  const v = parseFloat(val);
+  deckState[id].pitch = v;
+  const sign = v > 0 ? '+' : '';
+  document.getElementById('pitch-' + id + '-val').textContent = sign + v.toFixed(1) + '%';
+  const pct = (v - (-8)) / 16;
+  const trackH = 160;
+  const thumbH = 10;
+  document.getElementById('pitch-' + id + '-thumb').style.top = (pct * (trackH - thumbH)) + 'px';
+  const baseBpm = TRACKS[deckState[id].trackIdx].bpm;
+  const newBpm = Math.round(baseBpm * (1 + v / 100));
+  document.getElementById('bpm-' + id).textContent = newBpm;
+  if (deckState[id].playing) { deckStop(id); deckTogglePlay(id); }
+}
+
+function updateCrossfader(val) {
+  crossfaderVal = parseFloat(val);
+}
+
+function updateMasterVol(val) {
+  masterVolVal = parseFloat(val) / 100;
+  document.getElementById('master-vol-display').textContent = Math.round(val) + '%';
+}
+
+function syncDecks() {
+  const bpmA = TRACKS[deckState.a.trackIdx].bpm;
+  document.getElementById('pitch-b').value = 0;
+  updatePitch('b', 0);
+  deckState.b.trackIdx = deckState.a.trackIdx;
+  document.getElementById('bpm-b').textContent = bpmA;
+  document.getElementById('mix-status').textContent = 'SYNCED';
+}
+
+function applyEQ(id) {
+  const state = deckState[id];
+  if (!state.hiShelf) return;
+  state.hiShelf.gain.value = state.eq.hi * 12;
+  state.peaking.gain.value = state.eq.mid * 12;
+  state.loShelf.gain.value = state.eq.lo * 12;
+}
+
+function setupKnob(el, onChange) {
+  let isDragging = false, startY = 0, startVal = 0;
+  let currentVal = 0;
+  el.addEventListener('mousedown', (e) => { isDragging = true; startY = e.clientY; startVal = currentVal; e.preventDefault(); });
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const delta = (startY - e.clientY) / 100;
+    currentVal = Math.max(-1, Math.min(1, startVal + delta));
+    const deg = currentVal * 135;
+    el.querySelector('.knob-indicator').style.transform = `translateX(-50%) rotate(${deg}deg)`;
+    onChange(currentVal);
+  });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+}
+
+/* ═══════════════════════════════════════════════════
+   BEAT STUDIO — AUDIO ENGINE
+═══════════════════════════════════════════════════ */
+const studioTracks = {
+  kick:    { steps: Array(16).fill(false), vol: 0.9,  color: 'kick' },
+  snare:   { steps: Array(16).fill(false), vol: 0.7,  color: 'snare' },
+  hihat:   { steps: Array(16).fill(false), vol: 0.65, color: 'hihat' },
+  openhat: { steps: Array(16).fill(false), vol: 0.55, color: 'openhat' },
+  acid:    { steps: Array(16).fill(false), vol: 0.75, color: 'acid' },
+  clap:    { steps: Array(16).fill(false), vol: 0.6,  color: 'clap' },
+};
+
+let studioBpm = 138;
+let studioSwing = 0;
+let studioPlaying = false;
+let studioStep = 0;
+let studioIntervalId = null;
+let acidCutoff = 60;
+let acidRes = 40;
+let acidDist = 30;
+let acidWave = 'sawtooth';
+
+function initBeatStudio() {
+  const trackNames = Object.keys(studioTracks);
+  trackNames.forEach(name => {
+    const container = document.getElementById('steps-' + name);
+    for (let i = 0; i < 16; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'step-btn';
+      btn.dataset.step = i;
+      btn.dataset.track = name;
+      btn.onclick = () => toggleStep(name, i, btn);
+      container.appendChild(btn);
+    }
+    // Quarter-note separators
+    const segs = container.querySelectorAll('.step-btn');
+    [3,7,11].forEach(idx => {
+      if (segs[idx]) segs[idx].style.marginRight = '6px';
+    });
+  });
+  // Acid knobs
+  setupKnob(document.getElementById('acid-cutoff-knob'), (val) => {
+    acidCutoff = Math.round((val + 1) / 2 * 100);
+    document.getElementById('acid-cutoff').value = acidCutoff;
+    document.getElementById('acid-cutoff-val').textContent = acidCutoff + '%';
+    const deg = val * 135;
+    document.getElementById('acid-cutoff-ind').style.transform = `translateX(-50%) rotate(${deg}deg)`;
+  });
+  setupKnob(document.getElementById('acid-res-knob'), (val) => {
+    acidRes = Math.round((val + 1) / 2 * 100);
+    document.getElementById('acid-res').value = acidRes;
+    document.getElementById('acid-res-val').textContent = acidRes + '%';
+    const deg = val * 135;
+    document.getElementById('acid-res-ind').style.transform = `translateX(-50%) rotate(${deg}deg)`;
+  });
+  loadSavedPatternsList();
+}
+
+function toggleStep(track, step, btn) {
+  studioTracks[track].steps[step] = !studioTracks[track].steps[step];
+  btn.classList.toggle('active', studioTracks[track].steps[step]);
+}
+
+function updateStudioBpm(val) {
+  studioBpm = parseInt(val);
+  document.getElementById('studio-bpm-display').textContent = val;
+  if (studioPlaying) { stopStudio(); startStudio(); }
+}
+
+function updateSwing(val) {
+  studioSwing = parseInt(val);
+  document.getElementById('swing-display').textContent = val + '%';
+}
+
+function setTrackVol(track, val) {
+  studioTracks[track].vol = parseFloat(val) / 100;
+}
+
+function updateAcidCutoff(val) {
+  acidCutoff = parseInt(val);
+  document.getElementById('acid-cutoff-val').textContent = val + '%';
+}
+
+function updateAcidRes(val) {
+  acidRes = parseInt(val);
+  document.getElementById('acid-res-val').textContent = val + '%';
+}
+
+function updateAcidDist(val) {
+  acidDist = parseInt(val);
+}
+
+function toggleStudioPlay() {
+  if (studioPlaying) stopStudio(); else startStudio();
+}
+
+function startStudio() {
+  const ctx = getAudioCtx();
+  if (ctx.state === 'suspended') ctx.resume();
+  studioPlaying = true;
+  studioStep = 0;
+  document.getElementById('studio-play-btn').textContent = '■';
+  document.getElementById('studio-play-btn').classList.add('playing');
+  scheduleStudioStep();
+}
+
+function stopStudio() {
+  clearTimeout(studioIntervalId);
+  studioPlaying = false;
+  studioStep = 0;
+  document.getElementById('studio-play-btn').textContent = '▶';
+  document.getElementById('studio-play-btn').classList.remove('playing');
+  // hide all position bars
+  Object.keys(studioTracks).forEach(name => {
+    const bar = document.getElementById('pos-' + name);
+    if (bar) bar.classList.remove('visible');
+  });
+}
+
+function scheduleStudioStep() {
+  if (!studioPlaying) return;
+  const step = studioStep % 16;
+  const isOdd = step % 2 === 1;
+  const baseInterval = (60 / studioBpm / 4) * 1000;
+  const swingOffset = isOdd ? (baseInterval * studioSwing / 100) : 0;
+
+  // Update position indicators
+  Object.keys(studioTracks).forEach(name => {
+    const bar = document.getElementById('pos-' + name);
+    if (!bar) return;
+    const stepBtns = document.querySelectorAll(`#steps-${name} .step-btn`);
+    if (!stepBtns.length) return;
+    const containerW = stepBtns[0].parentElement.offsetWidth;
+    const segW = containerW / 16;
+    bar.style.transform = `translateX(${step * segW}px)`;
+    bar.classList.add('visible');
+  });
+
+  // Fire sounds
+  if (studioTracks.kick.steps[step])    playStudioKick();
+  if (studioTracks.snare.steps[step])   playStudioSnare();
+  if (studioTracks.hihat.steps[step])   playStudioHat(false);
+  if (studioTracks.openhat.steps[step]) playStudioHat(true);
+  if (studioTracks.acid.steps[step])    playStudioAcid();
+  if (studioTracks.clap.steps[step])    playStudioClap();
+
+  studioStep++;
+  studioIntervalId = setTimeout(scheduleStudioStep, baseInterval + swingOffset);
+}
+
+function playStudioKick() {
+  const ctx = getAudioCtx();
+  const vol = studioTracks.kick.vol;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(vol, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+  const osc = ctx.createOscillator();
+  osc.frequency.setValueAtTime(160, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.15);
+  const n = 256, curve = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const x = i * 2 / n - 1; curve[i] = (Math.PI + 256) * x / (Math.PI + 256 * Math.abs(x)); }
+  const ws = ctx.createWaveShaper(); ws.curve = curve;
+  osc.connect(ws); ws.connect(g); g.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime + 0.5);
+}
+
+function playStudioSnare() {
+  const ctx = getAudioCtx();
+  const vol = studioTracks.snare.vol;
+  const bufSz = ctx.sampleRate * 0.2;
+  const buf = ctx.createBuffer(1, bufSz, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSz; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource(); src.buffer = buf;
+  const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 2000; bp.Q.value = 0.5;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(vol, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+  src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+  src.start();
+}
+
+function playStudioHat(open) {
+  const ctx = getAudioCtx();
+  const trackName = open ? 'openhat' : 'hihat';
+  const vol = studioTracks[trackName].vol;
+  const dur = open ? 0.2 : 0.04;
+  const bufSz = ctx.sampleRate * dur;
+  const buf = ctx.createBuffer(1, bufSz, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < bufSz; i++) data[i] = Math.random() * 2 - 1;
+  const src = ctx.createBufferSource(); src.buffer = buf;
+  const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 8000;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(vol, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+  src.connect(hp); hp.connect(g); g.connect(ctx.destination);
+  src.start();
+}
+
+function playStudioAcid() {
+  const ctx = getAudioCtx();
+  const vol = studioTracks.acid.vol;
+  const cutoffFreq = 200 + (acidCutoff / 100) * 3800;
+  const resQ = 0.5 + (acidRes / 100) * 29.5;
+  const osc = ctx.createOscillator();
+  osc.type = acidWave;
+  osc.frequency.value = 80;
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(cutoffFreq * 0.5, ctx.currentTime);
+  filter.frequency.linearRampToValueAtTime(cutoffFreq, ctx.currentTime + 0.1);
+  filter.Q.value = resQ;
+  const n = 256, curve = new Float32Array(n);
+  for (let i = 0; i < n; i++) { const x = i * 2 / n - 1; curve[i] = (Math.PI + acidDist * 2) * x / (Math.PI + acidDist * 2 * Math.abs(x)); }
+  const ws = ctx.createWaveShaper(); ws.curve = curve;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(vol, ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+  osc.connect(filter); filter.connect(ws); ws.connect(g); g.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime + 0.15);
+}
+
+function playStudioClap() {
+  const ctx = getAudioCtx();
+  const vol = studioTracks.clap.vol;
+  [0, 0.01, 0.02].forEach(offset => {
+    const bufSz = ctx.sampleRate * 0.05;
+    const buf = ctx.createBuffer(1, bufSz, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufSz; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 1;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(vol, ctx.currentTime + offset);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.05);
+    src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+    src.start(ctx.currentTime + offset);
+  });
+}
+
+/* Pattern save/load */
+function savePattern() {
+  const name = document.getElementById('pattern-name-input').value.trim() || ('Pattern ' + Date.now());
+  const pattern = {};
+  Object.keys(studioTracks).forEach(t => { pattern[t] = [...studioTracks[t].steps]; });
+  pattern._bpm = studioBpm;
+  const saved = getSavedPatterns();
+  saved[name] = pattern;
+  localStorage.setItem('htdj_patterns', JSON.stringify(saved));
+  document.getElementById('pattern-name-input').value = '';
+  loadSavedPatternsList();
+}
+
+function loadPattern() {
+  const name = document.getElementById('pattern-name-input').value.trim();
+  if (!name) return;
+  const saved = getSavedPatterns();
+  if (!saved[name]) return;
+  applyPattern(name, saved[name]);
+}
+
+function applyPattern(name, pattern) {
+  Object.keys(studioTracks).forEach(t => {
+    if (pattern[t]) {
+      studioTracks[t].steps = [...pattern[t]];
+      const stepBtns = document.querySelectorAll(`#steps-${t} .step-btn`);
+      stepBtns.forEach((btn, i) => btn.classList.toggle('active', studioTracks[t].steps[i]));
+    }
+  });
+  if (pattern._bpm) {
+    studioBpm = pattern._bpm;
+    document.getElementById('studio-bpm-slider').value = studioBpm;
+    document.getElementById('studio-bpm-display').textContent = studioBpm;
+  }
+}
+
+function clearPattern() {
+  Object.keys(studioTracks).forEach(t => {
+    studioTracks[t].steps = Array(16).fill(false);
+    document.querySelectorAll(`#steps-${t} .step-btn`).forEach(btn => btn.classList.remove('active'));
+  });
+}
+
+function getSavedPatterns() {
+  try { return JSON.parse(localStorage.getItem('htdj_patterns') || '{}'); } catch { return {}; }
+}
+
+function loadSavedPatternsList() {
+  const saved = getSavedPatterns();
+  const container = document.getElementById('saved-patterns-list');
+  container.innerHTML = Object.keys(saved).map(name => `
+    <button class="btn" style="font-size:9px;" onclick="applyPattern('${name}', getSavedPatterns()['${name}'])">${name}</button>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  initDashboardGrid();
+  initCurriculumList();
+  refreshProgressUI();
+});
+</script>
+</body>
+</html>
