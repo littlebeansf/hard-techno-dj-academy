@@ -1353,10 +1353,10 @@ html, body {
 .deck-panel {
   background: var(--surface-1);
   border: 1px solid var(--border-normal);
-  padding: 6px 8px;
-  display: grid;
-  grid-template-rows: auto auto auto auto auto auto auto auto;
-  gap: 4px;
+  padding: 5px 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   height: 100%;
   overflow: hidden;
 }
@@ -1596,8 +1596,8 @@ html, body {
 
 .pitch-fader-track {
   position: relative;
-  height: 90px;
-  width: 18px;
+  height: 70px;
+  width: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1987,7 +1987,7 @@ html, body {
 
 .track-row {
   display: grid;
-  grid-template-columns: 72px 1fr 40px 52px;
+  grid-template-columns: 72px 1fr 36px 60px;
   align-items: center;
   gap: 3px;
   margin-bottom: 3px;
@@ -2509,14 +2509,37 @@ html, body {
 
 .deck-section-divider {
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 7px;
   letter-spacing: 0.2em;
   color: var(--text-dim);
   text-transform: uppercase;
   border-top: 1px solid var(--border-subtle);
-  padding-top: 6px;
-  margin-top: 2px;
+  padding-top: 3px;
+  margin-top: 1px;
   display: block;
+}
+
+.deck-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.deck-bottom-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deck-mini-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .bpm-readout-row {
@@ -2540,10 +2563,11 @@ html, body {
 ════════════════════════════════════════ */
 .mute-solo-col {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 2px;
-  width: 50px;
+  width: auto;
   flex-shrink: 0;
+  align-items: center;
 }
 .mute-btn, .solo-btn {
   font-family: var(--font-mono);
@@ -3153,34 +3177,43 @@ html, body {
               <button class="btn" onclick="deckCue('a')">CUE</button>
               <button class="vinyl-mode-btn" id="vinyl-a" onclick="toggleVinylMode('a')" title="Vinyl Mode">VINYL</button>
             </div>
-            <span class="deck-section-divider">Hot Cues</span>
-            <div class="hot-cue-row" id="hotcues-a">
-              <button class="hot-cue-btn" data-cue="0" onclick="hotCue('a',0)">CUE 1</button>
-              <button class="hot-cue-btn" data-cue="1" onclick="hotCue('a',1)">CUE 2</button>
-              <button class="hot-cue-btn" data-cue="2" onclick="hotCue('a',2)">CUE 3</button>
-              <button class="hot-cue-btn" data-cue="3" onclick="hotCue('a',3)">CUE 4</button>
-            </div>
-            <span class="deck-section-divider">Loop</span>
-            <div class="loop-row" id="loop-a">
-              <button class="loop-btn" onclick="setLoop('a','1/8')">1/8</button>
-              <button class="loop-btn" onclick="setLoop('a','1/4')">1/4</button>
-              <button class="loop-btn" onclick="setLoop('a','1/2')">1/2</button>
-              <button class="loop-btn" onclick="setLoop('a','1')">1</button>
-              <button class="loop-btn" onclick="setLoop('a','2')">2</button>
-              <button class="loop-btn" onclick="setLoop('a','4')">4</button>
-              <button class="loop-btn" onclick="setLoop('a','8')">8</button>
-            </div>
-            <span class="deck-section-divider">Nudge</span>
-            <div class="nudge-row">
-              <button class="nudge-btn" onclick="nudgeDeck('a',-1)">◀◀</button>
-              <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);">TEMPO</span>
-              <button class="nudge-btn" onclick="nudgeDeck('a',1)">▶▶</button>
-            </div>
-            <span class="deck-section-divider">FX Send</span>
-            <div class="fx-row" id="fx-a">
-              <button class="fx-btn" onclick="toggleFX('a','reverb')">REVERB</button>
-              <button class="fx-btn" onclick="toggleFX('a','delay')">DELAY</button>
-              <button class="fx-btn" onclick="toggleFX('a','echo')">ECHO</button>
+            <div class="deck-bottom-grid">
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">HOT CUES</span>
+                <div class="hot-cue-row" id="hotcues-a">
+                  <button class="hot-cue-btn" data-cue="0" onclick="hotCue('a',0)">C1</button>
+                  <button class="hot-cue-btn" data-cue="1" onclick="hotCue('a',1)">C2</button>
+                  <button class="hot-cue-btn" data-cue="2" onclick="hotCue('a',2)">C3</button>
+                  <button class="hot-cue-btn" data-cue="3" onclick="hotCue('a',3)">C4</button>
+                </div>
+              </div>
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">LOOP</span>
+                <div class="loop-row" id="loop-a">
+                  <button class="loop-btn" onclick="setLoop('a','1/8')">⅛</button>
+                  <button class="loop-btn" onclick="setLoop('a','1/4')">¼</button>
+                  <button class="loop-btn" onclick="setLoop('a','1/2')">½</button>
+                  <button class="loop-btn" onclick="setLoop('a','1')">1</button>
+                  <button class="loop-btn" onclick="setLoop('a','2')">2</button>
+                  <button class="loop-btn" onclick="setLoop('a','4')">4</button>
+                  <button class="loop-btn" onclick="setLoop('a','8')">8</button>
+                </div>
+              </div>
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">NUDGE</span>
+                <div class="nudge-row">
+                  <button class="nudge-btn" onclick="nudgeDeck('a',-1)">◀◀</button>
+                  <button class="nudge-btn" onclick="nudgeDeck('a',1)">▶▶</button>
+                </div>
+              </div>
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">FX</span>
+                <div class="fx-row" id="fx-a">
+                  <button class="fx-btn" onclick="toggleFX('a','reverb')">REV</button>
+                  <button class="fx-btn" onclick="toggleFX('a','delay')">DLY</button>
+                  <button class="fx-btn" onclick="toggleFX('a','echo')">ECH</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -3301,34 +3334,43 @@ html, body {
               <button class="btn" onclick="deckCue('b')">CUE</button>
               <button class="vinyl-mode-btn" id="vinyl-b" onclick="toggleVinylMode('b')" title="Vinyl Mode">VINYL</button>
             </div>
-            <span class="deck-section-divider">Hot Cues</span>
-            <div class="hot-cue-row" id="hotcues-b">
-              <button class="hot-cue-btn" data-cue="0" onclick="hotCue('b',0)">CUE 1</button>
-              <button class="hot-cue-btn" data-cue="1" onclick="hotCue('b',1)">CUE 2</button>
-              <button class="hot-cue-btn" data-cue="2" onclick="hotCue('b',2)">CUE 3</button>
-              <button class="hot-cue-btn" data-cue="3" onclick="hotCue('b',3)">CUE 4</button>
-            </div>
-            <span class="deck-section-divider">Loop</span>
-            <div class="loop-row" id="loop-b">
-              <button class="loop-btn" onclick="setLoop('b','1/8')">1/8</button>
-              <button class="loop-btn" onclick="setLoop('b','1/4')">1/4</button>
-              <button class="loop-btn" onclick="setLoop('b','1/2')">1/2</button>
-              <button class="loop-btn" onclick="setLoop('b','1')">1</button>
-              <button class="loop-btn" onclick="setLoop('b','2')">2</button>
-              <button class="loop-btn" onclick="setLoop('b','4')">4</button>
-              <button class="loop-btn" onclick="setLoop('b','8')">8</button>
-            </div>
-            <span class="deck-section-divider">Nudge</span>
-            <div class="nudge-row">
-              <button class="nudge-btn" onclick="nudgeDeck('b',-1)">◀◀</button>
-              <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);">TEMPO</span>
-              <button class="nudge-btn" onclick="nudgeDeck('b',1)">▶▶</button>
-            </div>
-            <span class="deck-section-divider">FX Send</span>
-            <div class="fx-row" id="fx-b">
-              <button class="fx-btn" onclick="toggleFX('b','reverb')">REVERB</button>
-              <button class="fx-btn" onclick="toggleFX('b','delay')">DELAY</button>
-              <button class="fx-btn" onclick="toggleFX('b','echo')">ECHO</button>
+            <div class="deck-bottom-grid">
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">HOT CUES</span>
+                <div class="hot-cue-row" id="hotcues-b">
+                  <button class="hot-cue-btn" data-cue="0" onclick="hotCue('b',0)">C1</button>
+                  <button class="hot-cue-btn" data-cue="1" onclick="hotCue('b',1)">C2</button>
+                  <button class="hot-cue-btn" data-cue="2" onclick="hotCue('b',2)">C3</button>
+                  <button class="hot-cue-btn" data-cue="3" onclick="hotCue('b',3)">C4</button>
+                </div>
+              </div>
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">LOOP</span>
+                <div class="loop-row" id="loop-b">
+                  <button class="loop-btn" onclick="setLoop('b','1/8')">⅛</button>
+                  <button class="loop-btn" onclick="setLoop('b','1/4')">¼</button>
+                  <button class="loop-btn" onclick="setLoop('b','1/2')">½</button>
+                  <button class="loop-btn" onclick="setLoop('b','1')">1</button>
+                  <button class="loop-btn" onclick="setLoop('b','2')">2</button>
+                  <button class="loop-btn" onclick="setLoop('b','4')">4</button>
+                  <button class="loop-btn" onclick="setLoop('b','8')">8</button>
+                </div>
+              </div>
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">NUDGE</span>
+                <div class="nudge-row">
+                  <button class="nudge-btn" onclick="nudgeDeck('b',-1)">◀◀</button>
+                  <button class="nudge-btn" onclick="nudgeDeck('b',1)">▶▶</button>
+                </div>
+              </div>
+              <div class="deck-bottom-cell">
+                <span class="deck-mini-label">FX</span>
+                <div class="fx-row" id="fx-b">
+                  <button class="fx-btn" onclick="toggleFX('b','reverb')">REV</button>
+                  <button class="fx-btn" onclick="toggleFX('b','delay')">DLY</button>
+                  <button class="fx-btn" onclick="toggleFX('b','echo')">ECH</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
