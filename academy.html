@@ -2164,6 +2164,21 @@ html, body {
       <button class="nav-item" data-section="beatstudio" onclick="switchSection('beatstudio', this)">
         <span class="nav-item-num">05</span>Beat Studio
       </button>
+      <button class="nav-item" data-section="fieldanalysis" onclick="switchSection('fieldanalysis', this)">
+        <span class="nav-item-num">06</span>◈ Field Analysis
+      </button>
+      <button class="nav-item" data-section="artists" onclick="switchSection('artists', this)">
+        <span class="nav-item-num">07</span>✦ Artists
+      </button>
+      <button class="nav-item" data-section="harmlab" onclick="switchSection('harmlab', this)">
+        <span class="nav-item-num">08</span>⟳ Harmonic Lab
+      </button>
+      <button class="nav-item" data-section="patterns" onclick="switchSection('patterns', this)">
+        <span class="nav-item-num">09</span>▣ Patterns
+      </button>
+      <button class="nav-item" data-section="setintel" onclick="switchSection('setintel', this)">
+        <span class="nav-item-num">10</span>◉ Set Intel
+      </button>
     </div>
     <div class="sidebar-bottom">
       <a href="index.html" class="sidebar-back-link">← Exit Academy</a>
@@ -2667,6 +2682,609 @@ html, body {
 
       </div><!-- /beatstudio -->
 
+
+      <!-- ══════════ FIELD ANALYSIS ══════════ -->
+      <div id="section-fieldanalysis" class="section">
+        <div style="padding:28px;overflow-y:auto;max-height:calc(100vh - 40px);">
+          <div style="margin-bottom:28px;">
+            <span class="section-label">◈ Field Analysis</span>
+            <h1 class="section-title">Playlist Statistics Dashboard</h1>
+            <p class="section-desc">Real data analysis of 238-track playlist "Pl-☠️🔇☣️⚠️" by Sebastian Fries.</p>
+          </div>
+
+          <!-- Sub-nav tabs -->
+          <div id="fa-tabs" style="display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--border-normal);padding-bottom:12px;">
+            <button class="btn" id="fa-tab-stats" onclick="faShowTab('stats')" style="border-color:var(--accent-white);color:var(--accent-white);">Stats Dashboard</button>
+            <button class="btn" id="fa-tab-outliers" onclick="faShowTab('outliers')">BPM Outlier Guide</button>
+            <button class="btn" id="fa-tab-keymap" onclick="faShowTab('keymap')">Key vs Energy Map</button>
+          </div>
+
+          <!-- 1a: Stats Dashboard -->
+          <div id="fa-panel-stats">
+            <!-- Core stats grid -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
+              <div class="stat-card"><span class="stat-value">238</span><span class="stat-sub">Total Tracks</span><span class="stat-label">Playlist Size</span></div>
+              <div class="stat-card"><span class="stat-value">13h 43m</span><span class="stat-sub">Total Runtime</span><span class="stat-label">Duration</span></div>
+              <div class="stat-card"><span class="stat-value">95.2</span><span class="stat-sub">Avg Energy</span><span class="stat-label">/ 100</span></div>
+              <div class="stat-card"><span class="stat-value">97</span><span class="stat-sub">Median Energy</span><span class="stat-label">/ 100</span></div>
+              <div class="stat-card"><span class="stat-value">56.2</span><span class="stat-sub">Avg Danceability</span><span class="stat-label">/ 100</span></div>
+              <div class="stat-card"><span class="stat-value">26.4</span><span class="stat-sub">Avg Valence</span><span class="stat-label">Dark / Aggressive</span></div>
+              <div class="stat-card"><span class="stat-value">75–195</span><span class="stat-sub">BPM Range</span><span class="stat-label">Full Spread</span></div>
+              <div class="stat-card"><span class="stat-value">23</span><span class="stat-sub">Distinct Keys</span><span class="stat-label">Camelot Keys</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+              <div class="intel-card"><span class="intel-card-title">Dominant BPM</span><div class="intel-card-value">160 BPM</div><span class="intel-card-note">107 tracks — 45% of playlist</span></div>
+              <div class="intel-card"><span class="intel-card-title">Dominant Key</span><div class="intel-card-value">3B — C# major</div><span class="intel-card-note">40 tracks — 16.8% of playlist</span></div>
+            </div>
+
+            <!-- BPM Distribution -->
+            <div style="margin-bottom:20px;">
+              <div class="panel-label">BPM Distribution</div>
+              <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                  <thead><tr><th>BPM Bucket</th><th>Count</th><th>%</th><th>Notes</th></tr></thead>
+                  <tbody>
+                    <tr><td>&lt; 100</td><td>5</td><td>2.1%</td><td>Warm-up anchors</td></tr>
+                    <tr><td>100–139</td><td>11</td><td>4.6%</td><td>Warm-up palette</td></tr>
+                    <tr><td>140–149</td><td>6</td><td>2.5%</td><td>Transition zone</td></tr>
+                    <tr><td>150–154</td><td>16</td><td>6.7%</td><td>Build-up floor</td></tr>
+                    <tr><td>155–159</td><td>56</td><td>23.5%</td><td>Build-up + Peak entry</td></tr>
+                    <tr><td style="color:var(--accent-white);font-weight:700;">160–164</td><td style="color:var(--accent-white);font-weight:700;">115</td><td style="color:var(--accent-white);font-weight:700;">48.3%</td><td style="color:var(--accent-white);font-weight:700;">DOMINANT CLUSTER</td></tr>
+                    <tr><td>165–174</td><td>14</td><td>5.9%</td><td>Upper Hard Techno</td></tr>
+                    <tr><td>175+</td><td>15</td><td>6.3%</td><td>Frenchcore / Hardcore</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Energy Distribution -->
+            <div style="margin-bottom:20px;">
+              <div class="panel-label">Energy Distribution</div>
+              <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                  <thead><tr><th>Energy</th><th>Count</th><th>%</th></tr></thead>
+                  <tbody>
+                    <tr><td>&lt; 70</td><td>3</td><td>1.3%</td></tr>
+                    <tr><td>70–79</td><td>11</td><td>4.6%</td></tr>
+                    <tr><td>80–84</td><td>4</td><td>1.7%</td></tr>
+                    <tr><td>85–89</td><td>12</td><td>5.0%</td></tr>
+                    <tr><td>90–94</td><td>28</td><td>11.8%</td></tr>
+                    <tr><td>95–98</td><td>82</td><td>34.5%</td></tr>
+                    <tr><td style="color:var(--accent-white);font-weight:700;">99–100</td><td style="color:var(--accent-white);font-weight:700;">98</td><td style="color:var(--accent-white);font-weight:700;">41.2%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="module-section-card" style="margin-top:10px;background:var(--surface-2);border-color:var(--border-strong);">
+                <div class="module-section-content" style="color:var(--text-secondary);font-style:italic;">"41.2% of this playlist sits at energy 99–100. This is an extraordinarily compressed distribution — the entire set is a controlled explosion. The rare low-energy tracks (Berghain at 44, Mondschein at 63, Sensation at 68) are the actual structural tools of the set."</div>
+              </div>
+            </div>
+
+            <!-- Genre Split -->
+            <div style="margin-bottom:20px;">
+              <div class="panel-label">Genre Split</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="comparison-table-wrap">
+                  <table class="comparison-table">
+                    <thead><tr><th>Genre</th><th>Tracks</th><th>%</th></tr></thead>
+                    <tbody>
+                      <tr><td>Hard Techno</td><td>105</td><td>44.1%</td></tr>
+                      <tr><td>Frenchcore</td><td>67</td><td>28.2%</td></tr>
+                      <tr><td>Acid Techno</td><td>48</td><td>20.2%</td></tr>
+                      <tr><td>Hardcore / Gabber</td><td>10</td><td>4.2%</td></tr>
+                      <tr><td>Industrial / Dark Techno</td><td>8</td><td>3.4%</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;justify-content:center;">
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:44.1%;height:14px;background:var(--accent-white);"></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Hard Techno 44.1%</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:28.2%;height:14px;background:var(--border-strong);"></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Frenchcore 28.2%</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:20.2%;height:14px;background:var(--text-dim);"></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Acid Techno 20.2%</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:4.2%;height:14px;background:var(--text-dim);"></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Hardcore / Gabber 4.2%</span></div>
+                  <div style="display:flex;align-items:center;gap:8px;"><div style="width:3.4%;height:14px;background:var(--text-dim);"></div><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Industrial 3.4%</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Camelot Distribution -->
+            <div style="margin-bottom:20px;">
+              <div class="panel-label">Camelot Key Distribution (all 23 keys)</div>
+              <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                  <thead><tr><th>Key</th><th>Musical Key</th><th>Count</th><th>%</th></tr></thead>
+                  <tbody>
+                    <tr><td style="color:var(--accent-white);font-weight:700;">3B</td><td style="color:var(--accent-white);">C# major</td><td style="color:var(--accent-white);font-weight:700;">40</td><td style="color:var(--accent-white);">16.8%</td></tr>
+                    <tr><td>8B</td><td>Ab major</td><td>19</td><td>8.0%</td></tr>
+                    <tr><td>9B</td><td>Eb major</td><td>19</td><td>8.0%</td></tr>
+                    <tr><td>10B</td><td>Bb major</td><td>19</td><td>8.0%</td></tr>
+                    <tr><td>3A</td><td>C# minor</td><td>16</td><td>6.7%</td></tr>
+                    <tr><td>4B</td><td>Db major</td><td>15</td><td>6.3%</td></tr>
+                    <tr><td>10A</td><td>Bb minor</td><td>13</td><td>5.5%</td></tr>
+                    <tr><td>1B</td><td>B major</td><td>12</td><td>5.0%</td></tr>
+                    <tr><td>9A</td><td>Eb minor</td><td>11</td><td>4.6%</td></tr>
+                    <tr><td>11B</td><td>E major</td><td>10</td><td>4.2%</td></tr>
+                    <tr><td>12A</td><td>F minor</td><td>9</td><td>3.8%</td></tr>
+                    <tr><td>11A</td><td>E minor</td><td>8</td><td>3.4%</td></tr>
+                    <tr><td>2B</td><td>F# major</td><td>8</td><td>3.4%</td></tr>
+                    <tr><td>7B</td><td>G major</td><td>6</td><td>2.5%</td></tr>
+                    <tr><td>8A</td><td>Ab minor</td><td>6</td><td>2.5%</td></tr>
+                    <tr><td>4A</td><td>F# minor</td><td>6</td><td>2.5%</td></tr>
+                    <tr><td>5A</td><td>B minor</td><td>5</td><td>2.1%</td></tr>
+                    <tr><td>1A</td><td>B minor</td><td>5</td><td>2.1%</td></tr>
+                    <tr><td>2A</td><td>F# minor</td><td>4</td><td>1.7%</td></tr>
+                    <tr><td>6B</td><td>Db major</td><td>3</td><td>1.3%</td></tr>
+                    <tr><td>12B</td><td>F major</td><td>2</td><td>0.8%</td></tr>
+                    <tr><td>7A</td><td>G minor</td><td>1</td><td>0.4%</td></tr>
+                    <tr><td>6A</td><td>Db minor</td><td>1</td><td>0.4%</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Comparison table -->
+            <div style="margin-bottom:20px;">
+              <div class="panel-label">This Playlist vs Typical Mixed Techno</div>
+              <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                  <thead><tr><th>Metric</th><th>This Playlist</th><th>Typical Mixed Techno Playlist</th></tr></thead>
+                  <tbody>
+                    <tr><td>Avg energy</td><td style="color:var(--accent-white);">95.2</td><td>70–80</td></tr>
+                    <tr><td>% tracks at 99–100 energy</td><td style="color:var(--accent-white);">41%</td><td>5–10%</td></tr>
+                    <tr><td>BPM range (core)</td><td style="color:var(--accent-white);">155–165</td><td>130–150</td></tr>
+                    <tr><td>Avg valence</td><td style="color:var(--accent-white);">26.4</td><td>40–60</td></tr>
+                    <tr><td>Genre diversity</td><td style="color:var(--accent-white);">5 subgenres</td><td>10–15 subgenres</td></tr>
+                    <tr><td>BPM variance</td><td style="color:var(--accent-white);">Low (concentrated)</td><td>High (progressive)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1b: BPM Outlier Guide -->
+          <div id="fa-panel-outliers" style="display:none;">
+            <div style="margin-bottom:20px;">
+              <div class="panel-label">BPM Outlier Tracks — DJ Role Reference</div>
+              <div class="module-section-card practice" style="margin-bottom:16px;">
+                <div class="module-section-content" style="color:var(--text-secondary);font-style:italic;">"These tracks are not mistakes — they are deliberate energy architecture. A 75 BPM track creates a valley that makes the following 160 BPM hit with 2× the perceived impact. MBKETAMINE at 120 BPM with Energy 100 is a rhythmic illusionist — the half-time placement makes the following 145+ BPM tracks feel like they're exploding out of a held breath."</div>
+              </div>
+              <div class="comparison-table-wrap" style="margin-bottom:20px;">
+                <table class="comparison-table">
+                  <thead><tr><th>Track</th><th>Artist</th><th>BPM</th><th>Energy</th><th>DJ Role</th></tr></thead>
+                  <tbody>
+                    <tr><td>Erlkönig</td><td>Lūcadelic</td><td>93</td><td>78</td><td>Set opener — creates space before the build</td></tr>
+                    <tr><td>Hellfire - Original Mix</td><td>Negative A</td><td>92</td><td>100</td><td>Energy shock opener despite low BPM</td></tr>
+                    <tr><td>Don't Call My Phone</td><td>Nic Johnston, Acina</td><td>75</td><td>99</td><td>Crowd psychological reset</td></tr>
+                    <tr><td>Solid Stigma</td><td>Angerfist</td><td>95</td><td>99</td><td>Hard reset after high-BPM sequence</td></tr>
+                    <tr><td>Frenchcore Worldwide</td><td>Dr. Peacock</td><td>95</td><td>92</td><td>Warm-up hook with genre signalling</td></tr>
+                    <tr><td>Berghain</td><td>ROSALÍA, Björk, Yves Tumor</td><td>125</td><td>44</td><td>Art-techno palette cleanser</td></tr>
+                    <tr><td>In My Head</td><td>Lavern</td><td>126</td><td>76</td><td>Melodic rebuild moment</td></tr>
+                    <tr><td>Break Your Face</td><td>Deadly Guns, N-Vitral</td><td>105</td><td>98</td><td>Crowd jolt after warm-up calm</td></tr>
+                    <tr><td>Sensation</td><td>Restricted</td><td>130</td><td>68</td><td>Structural bridge, half-time feel</td></tr>
+                    <tr><td>MBKETAMINE</td><td>Unicorn On Ketamine, MBK</td><td>120</td><td>100</td><td>Energy paradox: max energy at low BPM</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="panel-label" style="margin-bottom:10px;">Outlier Handling Guide</div>
+              <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                  <thead><tr><th>Outlier BPM Group</th><th>Tracks</th><th>DJ Strategy</th></tr></thead>
+                  <tbody>
+                    <tr><td>75 BPM</td><td>Don't Call My Phone</td><td>Place at crowd-reset moment. Cut out of a 160–165 BPM track abruptly. Let this track breathe for full 3 minutes.</td></tr>
+                    <tr><td>92–95 BPM</td><td>Hellfire, Erlkönig, Solid Stigma, Frenchcore Worldwide</td><td>These are "half-time" moments — the kick at 95 BPM sounds like a 190 BPM track missing every other beat. Program 2–3 of these consecutively for maximum psychological effect.</td></tr>
+                    <tr><td>100 BPM</td><td>Fine Night, My Beat, Wanna Play?, Seeds of Lies</td><td>Use as warm-up block only. High energy at 100 BPM signals to the crowd that BPM will build — expectations are set.</td></tr>
+                    <tr><td>105–130 BPM</td><td>Break Your Face, MBKETAMINE, Sensation, In My Head</td><td>Transition zone. MBKETAMINE at 120 BPM with Energy 100 is particularly dangerous. Half-time perception at 105 = double-time perception at 210.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 1c: Key vs Energy Map -->
+          <div id="fa-panel-keymap" style="display:none;">
+            <div class="panel-label">Key vs Energy Map — Average Energy per Camelot Key</div>
+            <div class="module-section-card" style="margin-bottom:16px;">
+              <div class="module-section-content" style="color:var(--text-secondary);font-style:italic;">"B-keys (major) carry consistently higher average energy than their A-key (minor) counterparts. The exception is 3B vs 3A — both are peak-energy (98 vs 91) — the 3A tracks are used to inject darkness into otherwise euphoric sequences."</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent-white);">12B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--accent-white);width:100%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--accent-white);">100</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Maximum aggression</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">6A</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:99%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">99</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Rare but lethal</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">7B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:99%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">99</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Crowd euphoria</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent-white);">3B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--accent-white);width:98%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--accent-white);">98</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Peak-set workhorse</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">6B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:98%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">98</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Dark groove</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">11B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:97%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">97</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Cinematic aggression</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">2B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:97%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">97</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Driving, relentless</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">10B</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:96%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">96</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Build-to-peak</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-primary);">1A</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-primary);width:96%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-primary);">96</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Hypnotic</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-secondary);">8A</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-secondary);width:88%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);">88</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Darker, more considered</span>
+              </div>
+              <div style="display:grid;grid-template-columns:40px 1fr 50px 200px;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border-subtle);">
+                <span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-secondary);">7A</span><div style="height:12px;background:var(--border-strong);width:100%;"><div style="height:100%;background:var(--text-secondary);width:82%;"></div></div><span style="font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);">82</span><span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);">Lonely (single track — Zatox, Atlantis)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ ARTIST ENCYCLOPEDIA ══════════ -->
+      <div id="section-artists" class="section">
+        <div style="padding:28px;overflow-y:auto;max-height:calc(100vh - 40px);">
+          <div style="margin-bottom:20px;">
+            <span class="section-label">✦ Artist Encyclopedia</span>
+            <h1 class="section-title">Artist Profiles</h1>
+            <p class="section-desc">15 key artists from the 238-track playlist — track counts, profiles, and full track lists.</p>
+          </div>
+          <div id="artist-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+        </div>
+      </div>
+
+      <!-- ══════════ HARMONIC LABORATORY ══════════ -->
+      <div id="section-harmlab" class="section">
+        <div style="padding:28px;overflow-y:auto;max-height:calc(100vh - 40px);">
+          <div style="margin-bottom:20px;">
+            <span class="section-label">⟳ Harmonic Laboratory</span>
+            <h1 class="section-title">Harmonic Mixing Reference</h1>
+            <p class="section-desc">Camelot wheel, harmonic highways, and key sequences derived from the playlist analysis.</p>
+          </div>
+
+          <!-- Camelot Wheel -->
+          <div style="margin-bottom:28px;">
+            <div class="panel-label">Camelot Wheel — Track Population</div>
+            <div style="position:relative;width:400px;height:400px;margin:0 auto 16px;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                <div style="width:80px;height:80px;background:var(--surface-3);border:2px solid var(--border-strong);display:flex;align-items:center;justify-content:center;flex-direction:column;">
+                  <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">CAMELOT</span>
+                  <span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">WHEEL</span>
+                </div>
+              </div>
+              <!-- B keys (inner ring, r=120px) -->
+              <div class="cw-seg" style="--deg:0;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">1B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">B maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">12</span></div>
+              <div class="cw-seg" style="--deg:30;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">2B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">F# maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">8</span></div>
+              <div class="cw-seg" style="--deg:60;--r:120px;background:var(--accent-white);border:2px solid var(--accent-white);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--bg);">3B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--bg);">C# maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--bg);font-weight:700;">40</span></div>
+              <div class="cw-seg" style="--deg:90;--r:120px;background:var(--surface-2);border:1px solid var(--border-strong);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">4B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">Db maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">15</span></div>
+              <div class="cw-seg" style="--deg:120;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">5B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">Ab maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">0</span></div>
+              <div class="cw-seg" style="--deg:150;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">6B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">Db maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">3</span></div>
+              <div class="cw-seg" style="--deg:180;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">7B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">G maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">6</span></div>
+              <div class="cw-seg" style="--deg:210;--r:120px;background:var(--surface-2);border:1px solid var(--border-strong);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">8B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">Ab maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">19</span></div>
+              <div class="cw-seg" style="--deg:240;--r:120px;background:var(--surface-2);border:1px solid var(--border-strong);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">9B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">Eb maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">19</span></div>
+              <div class="cw-seg" style="--deg:270;--r:120px;background:var(--surface-2);border:1px solid var(--border-strong);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">10B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">Bb maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">19</span></div>
+              <div class="cw-seg" style="--deg:300;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">11B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">E maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">10</span></div>
+              <div class="cw-seg" style="--deg:330;--r:120px;background:var(--surface-2);border:1px solid var(--border-normal);top:50%;left:50%;width:68px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">12B</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">F maj</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">2</span></div>
+              <!-- A keys (outer ring, r=185px) -->
+              <div class="cw-seg" style="--deg:0;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">1A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">B min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">5</span></div>
+              <div class="cw-seg" style="--deg:30;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">2A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">F# min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">4</span></div>
+              <div class="cw-seg" style="--deg:60;--r:185px;background:var(--surface-2);border:1px solid var(--border-strong);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-primary);">3A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-secondary);">C# min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">16</span></div>
+              <div class="cw-seg" style="--deg:90;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">4A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">F# min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">6</span></div>
+              <div class="cw-seg" style="--deg:120;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">5A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">B min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">5</span></div>
+              <div class="cw-seg" style="--deg:150;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">6A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">Db min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">1</span></div>
+              <div class="cw-seg" style="--deg:180;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">7A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">G min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">1</span></div>
+              <div class="cw-seg" style="--deg:210;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">8A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">Ab min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">6</span></div>
+              <div class="cw-seg" style="--deg:240;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">9A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">Eb min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">11</span></div>
+              <div class="cw-seg" style="--deg:270;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">10A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">Bb min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--led-amber);">13</span></div>
+              <div class="cw-seg" style="--deg:300;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">11A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">E min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">8</span></div>
+              <div class="cw-seg" style="--deg:330;--r:185px;background:var(--surface-1);border:1px solid var(--border-normal);top:50%;left:50%;width:60px;transform-origin:0 0;position:absolute;transform:rotate(calc(var(--deg)*1deg)) translate(var(--r)) rotate(calc(var(--deg)*-1deg)) translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;"><span style="font-family:var(--font-mono);font-weight:700;font-size:11px;color:var(--text-secondary);">12A</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">F min</span><span style="font-family:var(--font-mono);font-size:8px;color:var(--text-dim);">9</span></div>
+            </div>
+            <div style="display:flex;gap:16px;justify-content:center;margin-bottom:28px;flex-wrap:wrap;">
+              <span style="font-family:var(--font-mono);font-size:10px;"><span style="display:inline-block;width:14px;height:10px;background:var(--accent-white);margin-right:4px;vertical-align:middle;"></span>3B — dominant (40)</span>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);"><span style="display:inline-block;width:14px;height:10px;background:var(--border-strong);margin-right:4px;vertical-align:middle;"></span>B keys (major, inner ring)</span>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);"><span style="display:inline-block;width:14px;height:10px;background:var(--surface-1);border:1px solid var(--border-normal);margin-right:4px;vertical-align:middle;"></span>A keys (minor, outer ring)</span>
+              <span style="font-family:var(--font-mono);font-size:10px;color:var(--led-amber);"><span style="display:inline-block;width:14px;height:10px;background:var(--surface-2);border:1px solid var(--border-strong);margin-right:4px;vertical-align:middle;"></span>High population (10+)</span>
+            </div>
+          </div>
+
+          <!-- Harmonic Highways -->
+          <div style="margin-bottom:28px;">
+            <div class="panel-label">The Three Harmonic Highways</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="panel">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.15em;color:var(--accent-white);margin-bottom:6px;">HIGHWAY 1 — THE B-STRING</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:6px;letter-spacing:0.05em;">3B → 4B → 3B → 2B → 1B → 12B → 11B → 10B → 9B → 8B → 7B</div>
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:4px;">Covers <strong style="color:var(--accent-white);">152 tracks (64%)</strong> of playlist. Stays in major keys throughout.</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">Following the 3B cluster with numerical ascent = entire peak section of the set. Maximum sustained energy. The standard hard techno mixing highway.</div>
+              </div>
+              <div class="panel">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.15em;color:var(--accent-white);margin-bottom:6px;">HIGHWAY 2 — THE 9–10–11 ARC</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:6px;letter-spacing:0.05em;">9A → 9B → 10B → 10A → 11A → 11B → 12A → 12B → 1B → 1A</div>
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:4px;">Covers <strong style="color:var(--accent-white);">97 tracks</strong>. Moves minor → major and back = emotional intensity build over 60–90 minutes.</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The emotional narrative arc. Starts in minor, peaks in major, returns through minor for closing. Used in the Build-Up → Peak transition of this set.</div>
+              </div>
+              <div class="panel">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.15em;color:var(--accent-white);margin-bottom:6px;">HIGHWAY 3 — THE 3B GRAVITY WELL</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:6px;letter-spacing:0.05em;">2B → 3B → 3A → 4B → 4A → 3B (loop)</div>
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);margin-bottom:4px;">With 40 tracks in 3B and 16 in 3A, this loop covers <strong style="color:var(--accent-white);">90+ continuous minutes</strong> without a key clash.</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">Orbit around C# major/minor. The most efficient path for sustained peak sections. Allows the DJ to stay in one tonal centre while varying major/minor for emotional colour.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Sequences -->
+          <div style="margin-bottom:28px;">
+            <div class="panel-label">Recommended Key Sequences</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div class="panel">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.1em;">OPENING (60–90 min)</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:8px;">12A → 9B → 8B → 9A → 10A → 10B → 11A → 11B</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">Start atmospheric (12A = F minor), build through 8B and 9A territory, arrive at the 10–11 corridor. Each step adds energy without a clash.</div>
+              </div>
+              <div class="panel">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.1em;">PEAK (60–90 min)</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:8px;">11B → 10B → 9B → 9A → 3B → 3A → 4B → 4A → 3B</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The shift to 3B is the gravitational moment. Once in 3B, the 3A/4B/4A orbit sustains maximum energy for extended periods.</div>
+              </div>
+              <div class="panel">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--text-secondary);margin-bottom:6px;letter-spacing:0.1em;">CLOSER (30–45 min)</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:8px;">3B → 2B → 1B → 12A → 11A → 12A (resolution)</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">Descend from 3B through the B-string back to 12A (F minor) for atmospheric closure. The 12A → 11A → 12A loop creates a sense of harmonic arrival.</div>
+              </div>
+              <div class="panel" style="border-color:var(--accent-white);">
+                <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:6px;letter-spacing:0.1em;">★ THE BERLIN WHEEL</div>
+                <div style="font-family:var(--font-mono);font-size:11px;color:var(--led-amber);margin-bottom:8px;">3B → 3A → 4B → 4A → 3B (loop)</div>
+                <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Covers <strong style="color:var(--accent-white);">77 tracks</strong>. The proven Camelot chain for 160 BPM peak sections. Named for the tight tonal orbit around C# that defines peak-hour Hard Techno.</div>
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim);">Euphoric lift (3B) → Dark turn (3A) → Forward momentum (4B) → Tension (4A) → Resolution (3B). Can be run for 2+ hours without harmonic fatigue.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Safest Transitions -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">Top 10 Safest Harmonic Transitions</div>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>From</th><th>To</th><th>Keys</th><th>BPM</th><th>Energy Δ</th></tr></thead>
+                <tbody>
+                  <tr><td>GIMMELOVE (TNT / Anime)</td><td>Bye Bye (Luciid)</td><td>9A → 10A</td><td>160</td><td>0</td></tr>
+                  <tr><td>CREATURES OF THE NIGHT (Anime)</td><td>Gaija (elMefti / Manji)</td><td>11B → 11B</td><td>160</td><td>0</td></tr>
+                  <tr><td>CREATURES OF THE NIGHT (Anime)</td><td>Overdose (HOLY PRIEST)</td><td>11B → 11B</td><td>160</td><td>0</td></tr>
+                  <tr><td>Hard Beat (TNT / Moriero)</td><td>2002 (TNT)</td><td>3B → 3B</td><td>160</td><td>0</td></tr>
+                  <tr><td>Hard Beat (TNT / Moriero)</td><td>2004 (TNT)</td><td>3B → 4B</td><td>160</td><td>0</td></tr>
+                  <tr><td>Hard Beat (TNT / Moriero)</td><td>OLDSCHOOL (Moriero)</td><td>3B → 3A</td><td>160</td><td>0</td></tr>
+                  <tr><td>Hard Beat (TNT / Moriero)</td><td>2003 (TNT)</td><td>3B → 3B</td><td>160</td><td>0</td></tr>
+                  <tr><td>Hard Beat (TNT / Moriero)</td><td>FAVELA (SICKEAU)</td><td>3B → 3B</td><td>160</td><td>0</td></tr>
+                  <tr><td>Hard Beat (TNT / Moriero)</td><td>HIT IT BOY (Kruelty / Fantasm)</td><td>3B → 3B</td><td>160</td><td>0</td></tr>
+                  <tr><td>Don't Give A FUCK (HOLY PRIEST)</td><td>Loco (LEYDON / KAYU)</td><td>10A → 10A</td><td>155</td><td>0</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="module-section-card" style="margin-top:10px;background:var(--surface-2);">
+              <div class="module-section-content" style="color:var(--text-secondary);font-style:italic;">"Camelot moves to watch in this playlist: 3B → 3A (major to relative minor) creates an emotional dark-turn mid-peak. High impact. 9B → 9A: same interval, same effect. Both are 19-track keys. 10B → 10A → 11A: the B-to-A descent, standard Build-Up → Peak transition."</div>
+            </div>
+          </div>
+
+          <!-- High-Impact Drops -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">Top 5 High-Impact Drops</div>
+            <div class="comparison-table-wrap" style="margin-bottom:10px;">
+              <table class="comparison-table">
+                <thead><tr><th>Transition</th><th>From BPM</th><th>To BPM</th><th>Jump</th><th>Notes</th></tr></thead>
+                <tbody>
+                  <tr><td>Mambo No.5 → Don't Call My Phone</td><td>165</td><td>75</td><td style="color:var(--error-red);">−90</td><td>Crowd shock at track 11</td></tr>
+                  <tr><td>Bone Chilling Hardcore → Trip to Portugal</td><td>185</td><td>100</td><td style="color:var(--error-red);">−85</td><td>Frenchcore to reset</td></tr>
+                  <tr><td>Pennywise → Solid Stigma</td><td>180</td><td>95</td><td style="color:var(--error-red);">−85</td><td>Half-time reset</td></tr>
+                  <tr><td>Solid Stigma → No Time To Lose</td><td>95</td><td>180</td><td style="color:var(--led-green);">+85</td><td>Slingshot into Frenchcore</td></tr>
+                  <tr><td>Hellfire → Absolute Power</td><td>92</td><td>175</td><td style="color:var(--led-green);">+83</td><td>Opening energy paradox</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="module-section-card practice">
+              <div class="module-section-content" style="color:var(--text-secondary);font-style:italic;">"These are not clean transitions — they are deliberate ruptures. Use a cut (full fader drop) or DJ tool effect rather than a beatmatch blend. The audience needs to feel the BPM change, not be eased into it. These are cinematic devices, not harmonic tools."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ BEAT PATTERNS LIBRARY ══════════ -->
+      <div id="section-patterns" class="section">
+        <div style="padding:28px;overflow-y:auto;max-height:calc(100vh - 40px);">
+          <div style="margin-bottom:20px;">
+            <span class="section-label">▣ Beat Patterns Library</span>
+            <h1 class="section-title">Genre Pattern Presets</h1>
+            <p class="section-desc">Load these patterns directly into the Beat Studio sequencer. Each is derived from real genre analysis.</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;" id="pattern-library-cards"></div>
+
+          <!-- TB-303 Reference Card -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">TB-303 Pattern in C# (3B Camelot)</div>
+            <pre style="font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);background:var(--surface-2);border:1px solid var(--border-normal);padding:14px;overflow-x:auto;line-height:1.8;">Step:   1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
+Note:   C# .  .  C# .  F  .  C# .  .  F  .  C# .  G# .
+Accent: 1  0  0  1  0  0  0  1  0  0  0  0  1  0  1  0
+Slide:  0  0  0  0  0  1  0  0  0  0  1  0  0  0  0  0
+Gate:   1  0  0  1  0  1  0  1  0  0  1  0  1  0  1  0</pre>
+            <div style="font-family:var(--font-ui);font-size:12px;color:var(--text-dim);margin-top:6px;">Reference tracks: Massive Attack by Basswell · FCKN LOUD by Vortek's / Restricted · DO MARGINAL by 240 KM/H</div>
+          </div>
+
+          <!-- TB-303 Settings Table -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">TB-303 Control Settings Reference</div>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>Parameter</th><th>Setting</th><th>Effect</th></tr></thead>
+                <tbody>
+                  <tr><td>Cutoff</td><td>40–60% start → 75–85% peak</td><td>Squelch sweep — creates tension; push open on accented steps</td></tr>
+                  <tr><td>Resonance</td><td>65–80% (sweet spot: 70%)</td><td>Classic self-oscillation acid sound. Too low = muddy. Too high = thin/squeaky.</td></tr>
+                  <tr><td>Envelope Mod</td><td>+60 to +80%</td><td>How dramatically filter opens on accents. High envelope mod = dramatic squelch.</td></tr>
+                  <tr><td>Decay</td><td>30–50% (ideal: 35–45%)</td><td>Short = punchy stab. Long = sweeping growl. 35–45% = "controlled aggression" timbre.</td></tr>
+                  <tr><td>Slide</td><td>On for 2–3 steps per bar</td><td>Legato connections between pitched notes — the "moaning" quality of hard acid lines. (Steps 6 and 11 in the pattern above.)</td></tr>
+                  <tr><td>Accent</td><td>Steps 1, 4, 8, 13</td><td>Boosts cutoff and volume simultaneously — the physical "punch" of the acid line.</td></tr>
+                  <tr><td>Distortion</td><td>15–25% overdrive post-303</td><td>Essential for Hard Techno context. Light tube saturation warms without destroying acid character.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ SET INTELLIGENCE ══════════ -->
+      <div id="section-setintel" class="section">
+        <div style="padding:28px;overflow-y:auto;max-height:calc(100vh - 40px);">
+          <div style="margin-bottom:20px;">
+            <span class="section-label">◉ Set Intelligence</span>
+            <h1 class="section-title">Set Planning &amp; Architecture</h1>
+            <p class="section-desc">Full structural analysis of the 238-track ordered set — 5 sub-sets, handover points, venue context, energy rules.</p>
+          </div>
+
+          <!-- 5-Set Structure -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">The 5-Set Structure</div>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>Set</th><th>Tracks</th><th>Duration</th><th>Zone</th><th>First Track</th><th>Last Track</th></tr></thead>
+                <tbody>
+                  <tr><td style="color:var(--accent-white);font-weight:700;">1</td><td>1–48</td><td>2h 58min</td><td>WARM-UP + BUILD-UP</td><td>Lūcadelic – Erlkönig</td><td>HOLY PRIEST – I RUN</td></tr>
+                  <tr><td style="color:var(--accent-white);font-weight:700;">2</td><td>49–101</td><td>3h 02min</td><td>BUILD-UP + PEAK</td><td>HOLY PRIEST / elMefti / FACELESS – Fuck This</td><td>Fantasm – I Fxcked Your Wife</td></tr>
+                  <tr><td style="color:var(--accent-white);font-weight:700;">3</td><td>102–152</td><td>2h 58min</td><td>PEAK</td><td>Samuel Moriero – Call You</td><td>Fantasm – Venom</td></tr>
+                  <tr><td style="color:var(--accent-white);font-weight:700;">4</td><td>153–203</td><td>3h 00min</td><td>SECOND PEAK + COOLDOWN START</td><td>Angerfist / CARV – Shot To The Brain</td><td>Nic Johnston – Smells Like Teen Spirit</td></tr>
+                  <tr><td style="color:var(--accent-white);font-weight:700;">5</td><td>204–238</td><td>1h 44min</td><td>COOLDOWN</td><td>Nic Johnston – Fairytale Gone Bad</td><td>IGDA, A.N.I. – Little Rave Planet</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Set Personalities -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">Set Personalities</div>
+            <div style="display:flex;flex-direction:column;gap:8px;" id="set-personality-cards">
+              <!-- injected by JS -->
+            </div>
+          </div>
+
+          <!-- B2B Handover Points -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">B2B Handover Points</div>
+            <div class="comparison-table-wrap" style="margin-bottom:10px;">
+              <table class="comparison-table">
+                <thead><tr><th>Handover</th><th>Between Sets</th><th>Track / Moment</th><th>BPM</th><th>Key</th><th>Why</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>Set 1 → Set 2</td><td>After track 48: HOLY PRIEST – I RUN</td><td>152</td><td>2B</td><td>Clean BPM re-entry. Next DJ opens Set 2 at 152 BPM with Fuck This. Matching key (2B → 3B = harmonic step).</td></tr>
+                  <tr><td>2</td><td>Set 2 → Set 3</td><td>After track 80: Underworld – Born Slippy (Nuxx)</td><td>140</td><td>6B</td><td>140 BPM → 155 BPM. Clean step up. If next DJ knows Born Slippy, Camelot 6B → next section entry is harmonic.</td></tr>
+                  <tr><td>3</td><td>Set 3 → Set 4</td><td>After track 152: Fantasm – Venom</td><td>160</td><td>12A</td><td>160 BPM, 12A key. Second DJ immediately escalates to 164 BPM with Shot To The Brain (12A). Perfect key lock.</td></tr>
+                  <tr><td>4</td><td>Set 4 → Set 5</td><td>After track 200: Angerfist – What Happened</td><td>190</td><td>1A</td><td>The absolute peak of the set. B2B partner takes from 190 BPM down to 165 BPM, allowing 10 minutes of crowd decompression.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="module-section-card" style="background:var(--surface-2);">
+              <div class="module-section-content" style="color:var(--text-secondary);font-style:italic;">"In this playlist, handover points should always occur at a key change (not mid-3B cluster) and ideally at a BPM plateau (not during active BPM ramp). Handing off mid-3B-cluster disrupts harmonic momentum."</div>
+            </div>
+          </div>
+
+          <!-- Venue Context -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">Venue Context Analysis</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--accent-white);margin-bottom:6px;">BERGHAIN (BERLIN)</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">Set 1 and Set 5 fit perfectly — Berghain crowds appreciate psychological tension and the ROSALÍA Berghain track (literally named after the club) is a direct reference. Sets 2–3 fit the Panorama Bar room. Set 4 (Frenchcore / Hardcore) would be unusual for Berghain's more minimal aesthetic but could work in special programming.</div></div>
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--accent-white);margin-bottom:6px;">MASTERS OF HARDCORE FESTIVAL</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">Set 4 (Second Peak) is purpose-built for this. The Angerfist tracks, Dj Mad Dog anthems (Immortal, Magnum Opus), and the 175–195 BPM range are standard Masters of Hardcore programming. Sets 1 and 5 would be out of place on a Masters of Hardcore main stage.</div></div>
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--accent-white);margin-bottom:6px;">UNDERGROUND WAREHOUSE CLUB (BOILER ROOM FORMAT)</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The entire set works. The unconventional warm-up (75 BPM Don't Call My Phone at track 11) would generate exactly the kind of surprised / impressed audience reaction that defines Boiler Room culture.</div></div>
+              <div class="panel" style="border-color:var(--border-strong);"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--text-secondary);margin-bottom:6px;">OVERALL RECOMMENDATION</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">This playlist was designed for a single-room underground club with a 4–6 hour booking. The full arc from warm-up to second peak to cooldown requires continuous crowd management. It cannot be compressed into a 2-hour festival set without losing the structural architecture.</div></div>
+            </div>
+          </div>
+
+          <!-- Energy Management Rules -->
+          <div style="margin-bottom:20px;">
+            <div class="panel-label">Energy Management Rules</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:4px;">01. USE LOW-ENERGY OUTLIERS AS ANCHOR POINTS</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The 14 tracks under 80 energy are the structural skeleton — they are what make the 98–100 energy tracks hit harder. Never skip them to "keep energy up."</div></div>
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:4px;">02. BUILD 10–15 MIN PLATEAU PERIODS AT 90–94 ENERGY</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The crowd needs contrast to perceive peaks. A sequence of 30 consecutive E:99–100 tracks without relief flattens perceived intensity within 20 minutes.</div></div>
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:4px;">03. USE 3A KEY CLUSTER AS INVISIBLE ENERGY MANAGEMENT</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The 3A key cluster (C# minor) naturally carries lower energy than 3B (C# major). Same BPM, different key = perceived energy drop without a BPM change. The crowd does not notice the key; they feel the mood.</div></div>
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:4px;">04. NEVER OPEN WITH 99–100 ENERGY TRACKS</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The warm-up section (tracks 1–30) deliberately uses the lower-energy outliers to establish crowd trust. Opening at maximum energy leaves nowhere to go.</div></div>
+              <div class="panel"><div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:4px;">05. THE SECOND PEAK IS THE "NUCLEAR OPTION"</div><div style="font-family:var(--font-ui);font-size:12px;color:var(--text-secondary);">The Second Peak (tracks 153–200) deploys 175–195 BPM Frenchcore / Hardcore tracks. It only works if the crowd has been properly prepared by 3+ hours at 155–165 BPM foundation. The BPM escalation is perceived as a reward, not a shock, only after sufficient preparation.</div></div>
+            </div>
+          </div>
+
+          <!-- Quick Reference Card -->
+          <div style="margin-bottom:20px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <span class="panel-label" style="margin-bottom:0;">Quick Reference Card</span>
+              <button class="btn" onclick="copyQuickRef()">COPY</button>
+            </div>
+            <pre id="quick-ref-pre" style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);background:var(--surface-2);border:1px solid var(--border-normal);padding:16px;overflow-x:auto;line-height:1.7;white-space:pre;">&#x2554;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2557;
+&#x2551;          PLAYLIST Pl-&#x2620;&#xFE0F;&#x1F507;&#x2623;&#xFE0F;&#x26A0;&#xFE0F;  &#x2014;  QUICK REFERENCE             &#x2551;
+&#x2551;                 Sebastian Fries | 238 tracks                  &#x2551;
+&#x255A;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255D;
+
+CORE STATS
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+Playlist energy level:    9.5 / 10
+Dominant BPM:             160 BPM (107 tracks, 45%)
+Dominant key:             3B &#x2014; C# major (40 tracks, 16.8%)
+Total BPM range:          75 &#x2013; 195 BPM
+Average valence:          26.4 / 100 (dark, aggressive)
+Average danceability:     56.2 / 100
+
+GENRE SPLIT
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+Hard Techno:              44.1% (105 tracks)
+Frenchcore:               28.2%  (67 tracks)
+Acid Techno:              20.2%  (48 tracks)
+Hardcore/Gabber:           4.2%  (10 tracks)
+Industrial/Dark Techno:    3.4%   (8 tracks)
+
+BEST OPENING TRACKS (LOW ENERGY, CROWD-WARM)
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+1. L&#x16B;cadelic &#x2013; Erlk&#xF6;nig (93 BPM, E:78, 12A)
+2. ROSAL&#xCD;A, Bj&#xF6;rk, Yves Tumor &#x2013; Berghain (125 BPM, E:44, 8A)
+3. Jim Yosef, Scarlett &#x2013; King of Hearts (140 BPM, E:71, 9A)
+4. Basswell, Onlynumbers &#x2013; Lunar (154 BPM, E:78, 9B)
+5. White Spirit &#x2013; In Flames (155 BPM, E:89, 8B)
+
+BEST PEAK TRACKS (MAX ENERGY, 160 BPM)
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+1. TNT, Darren Styles, Technoboy, Tuneboy &#x2013; Hard Beat (160 BPM, E:100, 3B)
+2. Samuel Moriero, KX CHR &#x2013; OLDSCHOOL (160 BPM, E:100, 3A)
+3. Restricted, TOZA &#x2013; DON'T WANNA MISS THIS (160 BPM, E:100, 3B)
+4. Vortek's, Samuel Moriero &#x2013; I SET FIRE (160 BPM, E:100, 8B)
+5. Bollmann &#x2013; Rampage - VIP Mix (165 BPM, E:100, 8B)
+
+BEST CLOSING TRACKS (MELODIC RESOLUTION)
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+1. BENNETT, Timmy Trumpet &#x2013; Diamond Heart (155 BPM, E:90, 5A)
+2. Nic Johnston &#x2013; Fairytale Gone Bad (155 BPM, E:84, 3A)
+3. Beachcrimes &#x2013; Good Energy (145 BPM, E:77, 3A)
+4. IGDA, A.N.I. &#x2013; Little Rave Planet (160 BPM, E:90, 4B)
+5. Klangkuenstler, Ski Aggu &#x2013; Sonne Geht Auf (156 BPM, E:91, 2B)
+
+HARDEST TRACKS (HIGHEST BPM + MAX ENERGY)
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+1. Angerfist &#x2013; What Happened (190 BPM, E:99, 1A)
+2. Korsakoff, Broken Minds &#x2013; Lyra - Broken Minds Remix (195 BPM, E:98, 8A)
+3. Dj Mad Dog, Evil Activities &#x2013; Immortal (184 BPM, E:100, 11B)
+4. Wreck Reality &#x2013; Bone Chilling Hardcore (185 BPM, E:99, 2A)
+5. Dj Mad Dog, Dave Revan &#x2013; Magnum Opus (180 BPM, E:99, 9B)
+
+MOST HARMONIC-FRIENDLY TRACKS (3B KEY, 160 BPM)
+&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+1. HOLY PRIEST, Krowdexx &#x2013; Bass Powah (3B, 160 BPM, E:99)
+2. TNT/Technoboy/Tuneboy &#x2013; 2002 (3B, 160 BPM, E:100)
+3. Samuel Moriero &#x2013; EMERGENCY (3B, 160 BPM, E:100)
+4. SICKEAU &#x2013; FAVELA (3B, 160 BPM, E:100)
+5. Restricted, TOZA &#x2013; DON'T WANNA MISS THIS (3B, 160 BPM, E:100)
+
+DOMINANT CAMELOT CHAINS (for long harmonic sequences):
+3B &#x2192; 3A &#x2192; 4B &#x2192; 4A &#x2192; 3B        [covers 77 tracks &#x2014; "The Berlin Wheel"]
+9B &#x2192; 9A &#x2192; 10A &#x2192; 10B &#x2192; 11B     [covers 78 tracks]
+3B &#x2192; 4B &#x2192; 2B &#x2192; 1B &#x2192; 12B &#x2192; 11B &#x2192; 10B &#x2192; 9B &#x2192; 8B &#x2192; 7B  [covers 152 tracks]</pre>
+          </div>
+
+        </div>
+      </div>
+
     </div><!-- /content-pane -->
   </div><!-- /main-area -->
 </div><!-- /app-shell -->
@@ -2676,12 +3294,17 @@ html, body {
    NAVIGATION
 ═══════════════════════════════════════════════════ */
 const sectionTitles = {
-  dashboard:  ['Dashboard', 'Overview'],
-  curriculum: ['Curriculum', 'Course Modules'],
-  module:     ['Curriculum', 'Module Detail'],
-  genre:      ['Genre Guide', 'Subgenre Reference'],
-  djdeck:     ['DJ Deck', 'Dual Deck Mixer'],
-  beatstudio: ['Beat Studio', 'Step Sequencer'],
+  dashboard:     ['Dashboard', 'Overview'],
+  curriculum:    ['Curriculum', 'Course Modules'],
+  module:        ['Curriculum', 'Module Detail'],
+  genre:         ['Genre Guide', 'Subgenre Reference'],
+  djdeck:        ['DJ Deck', 'Dual Deck Mixer'],
+  beatstudio:    ['Beat Studio', 'Step Sequencer'],
+  fieldanalysis: ['Field Analysis', 'Playlist Statistics'],
+  artists:       ['Artist Encyclopedia', 'Artist Profiles'],
+  harmlab:       ['Harmonic Laboratory', 'Mixing Reference'],
+  patterns:      ['Beat Patterns Library', 'Genre Pattern Presets'],
+  setintel:      ['Set Intelligence', 'Set Architecture'],
 };
 
 function switchSection(id, navBtn) {
@@ -3800,7 +4423,456 @@ document.addEventListener('DOMContentLoaded', () => {
   initDashboardGrid();
   initCurriculumList();
   refreshProgressUI();
+  initPatternLibrary();
+  initArtistGrid();
+  initSetPersonalities();
 });
+
+/* ═══════════════════════════════════════════════════
+   FIELD ANALYSIS
+═══════════════════════════════════════════════════ */
+function faShowTab(tab) {
+  ['stats','outliers','keymap'].forEach(t => {
+    document.getElementById('fa-panel-' + t).style.display = t === tab ? 'block' : 'none';
+    const btn = document.getElementById('fa-tab-' + t);
+    btn.style.borderColor = t === tab ? 'var(--accent-white)' : '';
+    btn.style.color = t === tab ? 'var(--accent-white)' : '';
+  });
+}
+
+function copyQuickRef() {
+  navigator.clipboard.writeText(document.getElementById('quick-ref-pre').textContent);
+}
+
+/* ═══════════════════════════════════════════════════
+   BEAT PATTERNS LIBRARY
+═══════════════════════════════════════════════════ */
+const PATTERNS = {
+  'hard-techno': {
+    name: 'Hard Techno — 160 BPM', bpm: 160,
+    note: 'Route kick through a waveshaper/clipper at 85–95% saturation before the compressor. Add a 2–4 kHz click boost (+3 dB, narrow Q) to cut through the mix. This creates the Hard Techno "thud-crack" timbre.',
+    ref: 'Samuel Moriero, HOLY PRIEST, Restricted, White Spirit',
+    steps: {
+      kick:    [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+      snare:   [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
+      hihat:   [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1],
+      openhat: [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],
+      acid:    [1,0,1,0,0,1,0,1,1,0,0,1,0,1,0,0],
+      clap:    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    }
+  },
+  'hardcore': {
+    name: 'Hardcore / Gabber — 180 BPM', bpm: 180,
+    note: 'Kick 1 pitched at −5 semitones from root. Kick 2 at +3 semitones. The harmonic clash between them creates the brutalist Gabber tonality. Reference: What Happened by Angerfist (190 BPM).',
+    ref: 'Angerfist, Wreck Reality, Dj Mad Dog',
+    steps: {
+      kick:    [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+      snare:   [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+      hihat:   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      openhat: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+      acid:    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      clap:    [0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],
+    }
+  },
+  'frenchcore': {
+    name: 'Frenchcore — 185 BPM', bpm: 185,
+    note: 'At 180–195 BPM, 16 steps = one bar. The triple-kick roll on steps 11–12–13 creates the "Frenchcore flam" — the kinetic forward thrust that defines Angerfist and Dj Mad Dog tracks.',
+    ref: 'Anime, Korsakoff / Broken Minds, Babalos',
+    steps: {
+      kick:    [1,0,0,0,1,0,0,0,1,0,0,1,0,1,0,0],
+      snare:   [0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0],
+      hihat:   [1,0,1,1,0,1,0,1,1,0,1,0,1,1,0,1],
+      openhat: [0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0],
+      acid:    [0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0],
+      clap:    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    }
+  },
+  'acid-techno': {
+    name: 'Acid Techno — 150 BPM', bpm: 150,
+    note: 'The acid bassline always occupies the same frequency space as the kick\'s sub (60–100 Hz). The 303 sidechains to the kick — you can hear the acid "duck" with every kick hit. This sidechain relationship is the fundamental technical lesson.',
+    ref: 'Basswell, Sara Landry, Marie Vaunt, 240 KM/H, Bollmann',
+    steps: {
+      kick:    [1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0],
+      snare:   [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],
+      hihat:   [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+      openhat: [0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,0],
+      acid:    [1,0,0,1,0,1,0,1,0,0,1,0,1,0,0,1],
+      clap:    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    }
+  }
+};
+
+function initPatternLibrary() {
+  const container = document.getElementById('pattern-library-cards');
+  if (!container) return;
+  Object.entries(PATTERNS).forEach(([id, p]) => {
+    const trackNames = Object.keys(p.steps);
+    const gridsHTML = trackNames.map(t => {
+      const cells = p.steps[t].map((v, i) => {
+        return '<div style="width:' + (100/16) + '%;height:20px;background:' + (v ? 'var(--border-strong)' : 'var(--surface-3)') + ';border:1px solid var(--border-subtle);display:inline-block;"></div>';
+      }).join('');
+      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;"><span style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);width:60px;text-align:right;text-transform:uppercase;">' + t + '</span><div style="flex:1;display:flex;">' + cells + '</div></div>';
+    }).join('');
+    const card = document.createElement('div');
+    card.className = 'panel';
+    card.innerHTML =
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">'
+      + '<div><div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent-white);margin-bottom:2px;">' + p.name + '</div>'
+      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);">Ref: ' + p.ref + '</div></div>'
+      + '<button class="btn btn-primary" onclick="loadPatternToStudio(\'' + id + '\')">LOAD</button>'
+      + '</div>'
+      + '<div style="margin-bottom:10px;">' + gridsHTML + '</div>'
+      + '<div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);border-top:1px solid var(--border-subtle);padding-top:8px;">' + p.note + '</div>';
+    container.appendChild(card);
+  });
+}
+
+function loadPatternToStudio(id) {
+  const p = PATTERNS[id];
+  if (!p) return;
+  const patternObj = {};
+  Object.entries(p.steps).forEach(([k, v]) => { patternObj[k] = v.map(x => !!x); });
+  patternObj._bpm = p.bpm;
+  applyPattern(id + '-library', patternObj);
+  updateStudioBpm(p.bpm);
+  document.getElementById('studio-bpm-slider').value = p.bpm;
+  switchSection('beatstudio', document.querySelector('[data-section=beatstudio]'));
+}
+
+/* ═══════════════════════════════════════════════════
+   ARTIST ENCYCLOPEDIA
+═══════════════════════════════════════════════════ */
+const ARTISTS = [
+  {
+    name: 'HOLY PRIEST', tracks: 27, genre: 'Hard Techno / Hardcore crossover',
+    bpmRange: '152–165', avgEnergy: 95, camelot: '3B, 9B, 10B, 10A',
+    profile: 'Maximalist, crowd-command drops, compressed layered kicks with shout-raps and aggressive vocal stabs. Peak-set destroyer. Most represented artist in the playlist.',
+    trackList: [
+      'Bass Powah (160 BPM, E:99, 3B) — with Krowdexx',
+      'DOMINATION (160 BPM, E:95, 10B) — with Rekkt',
+      'Get High (155 BPM, E:100, 10A) — with Coone',
+      'Like A Boss (165 BPM, E:99, 1B) — with Lil Texas',
+      'Under The Lights (160 BPM, E:97, 2B) — with elMefti',
+      'GO HARD (160 BPM, E:97, 4A) — with D-Sturb',
+      'No Balance (160 BPM, E:100, 10B) — with Manji',
+      'Overdose (160 BPM, E:97, 11B) — with Nico Moreno',
+      'Break Your Neck (160 BPM, E:95, 10B)',
+      'F*CK THE POLICE (155 BPM, E:96, 9B) — with elMefti, FACELESS',
+      'DEVIL (155 BPM, E:98, 8B) — with elMefti, FACELESS',
+      'Fuck This (152 BPM, E:97, 3B) — with elMefti, FACELESS',
+      'I RUN (152 BPM, E:95, 2B)',
+      'Bad Thoughts (155 BPM, E:75, 11A)',
+      'Brain Scramble (160 BPM, E:96, 3B) — with elMefti',
+      'Gangster Life (162 BPM, E:93, 3B)',
+      'Shitty Kicks (160 BPM, E:92, 4B)',
+      'New Shit (160 BPM, E:95, 3B) — with Zatox',
+      'Hit The Floor (160 BPM, E:99, 1B) — with Bloodlust',
+      "Don't Give A FUCK (155 BPM, E:98, 10A)",
+      'Holy Atlantis (164 BPM, E:94, 5A) — with Netherworld',
+      '2 Be High Remix (160 BPM, E:93, 9B) — with Nico Moreno, Warface',
+      'Wanna Play? (155 BPM, E:93, 9B) — with elMefti',
+      'Diablo (160 BPM, E:90, 3B) — with Zatox',
+      "Gangsta's Paradise (160 BPM, E:98, 3A) — with Coolio, 1 World",
+      'Drop This Bass (160 BPM, E:96, 10A) — with elMefti',
+      'Get High (155 BPM, E:100, 10A) — with Coone',
+    ]
+  },
+  {
+    name: 'Samuel Moriero', tracks: 14, genre: 'Hard Techno (Brutalist Euro)',
+    bpmRange: '158–160', avgEnergy: 99, camelot: '3A, 3B, 8B',
+    profile: 'Unrelentingly high-energy. Moriero tracks cluster in the 99–100 energy range. Functional as peak-set artillery. Zero variation, maximum impact. Shares tracks frequently with DJSM and KX CHR.',
+    trackList: [
+      'OLDSCHOOL (160 BPM, E:100, 3A) — with KX CHR',
+      'EMERGENCY (160 BPM, E:100, 3B) — with DJSM',
+      'People Stomping (160 BPM, E:99, 1A)',
+      'WATCH OUT (160 BPM, E:99, 6B)',
+      'Random Nostalgia (160 BPM, E:99, 6A)',
+      'Call You (160 BPM, E:99, 8B)',
+      'Bass Kick (160 BPM, E:99, 10B)',
+      'LIKE ME (160 BPM, E:96, 3B)',
+      'PUMP THIS BASS (160 BPM, E:100, 10A)',
+      'I SET FIRE (160 BPM, E:100, 8B) — with Vortek\'s',
+      'DANGER ZONE (160 BPM, E:98, 4B) — with DØMINA',
+      'MIRAGE (158 BPM, E:99, 11A) — with DJSM',
+      'See Me Coming (160 BPM, E:100, 3A) — with Nico Moreno',
+      'Morning Rave (158 BPM, E:99, 8B) — with OMAKS, Vortek\'s, ENERGIC',
+    ]
+  },
+  {
+    name: 'Restricted', tracks: 12, genre: 'Hard Techno / Hardcore breakbeat crossover',
+    bpmRange: '130–160', avgEnergy: 96, camelot: '10B, 4B, 3B, 12A',
+    profile: 'Most versatile artist in the playlist. Ranges from mid-tempo builders to high-energy breakbeat smashers. Hardcore (give me a mfkn breakbeat) is the flagship track.',
+    trackList: [
+      'Hardcore (give me a mfkn breakbeat) (160 BPM, E:99, 10B)',
+      'Tunnel Vision (160 BPM, E:97, 4B) — with Nik Sitz',
+      "DON'T WANNA MISS THIS (160 BPM, E:100, 3B) — with TOZA",
+      'WTF? (160 BPM, E:99, 3B) — with Anderex',
+      "FCKN LOUD (160 BPM, E:99, 10B) — with Vortek's",
+      'Smells Like Teen Spirit (150 BPM, E:100, 12A)',
+      'Crowd Operator (160 BPM, E:100, 8B)',
+      'Insomnia (150 BPM, E:100, 11B) — with NIKSTER',
+      'Rockin To The Rhythm (160 BPM, E:100, 12B)',
+      'Sensation (130 BPM, E:68, 4B)',
+      'Party People (155 BPM, E:96, 10B) — with Nik Sitz, 89ers',
+      'Tunnel Vision - Junkie Kid Remix (160 BPM, E:100, 12B) — with Nik Sitz, Junkie Kid',
+    ]
+  },
+  {
+    name: 'Fantasm', tracks: 12, genre: 'Industrial / Dark Techno with Hard Techno range',
+    bpmRange: '160–165', avgEnergy: 98, camelot: '9B, 3B, 12A, 5A',
+    profile: 'Cold, mechanical, arena-filling. Cinematic intro stabs, distorted mid-range noise, zero sentimentality. Burn the Floor (6:51) is the longest and heaviest.',
+    trackList: [
+      'Venom (160 BPM, E:98, 12A) — with INNERGATED',
+      'Hard Is Our Way Of Life (165 BPM, E:100, 9B) — with Chaos Project',
+      'Burn the Floor (160 BPM, E:100, 9B)',
+      'Arena Conqueror (160 BPM, E:95, 5A)',
+      'Masterclass (160 BPM, E:97, 7B)',
+      'Buttercup With An Axe (160 BPM, E:95, 1B) — with Juul Exler',
+      'This Is Kenzo (160 BPM, E:98, 3B)',
+      'I Fxcked Your Wife (160 BPM, E:96, 8B)',
+      'HIT IT BOY (160 BPM, E:100, 3B) — with Kruelty',
+      'You Like This B*tch - Choke Mix (160 BPM, E:100, 10A)',
+      'You Like This B*tch (160 BPM, E:100, 10A)',
+      'Hard Is Our Way Of Life (165 BPM, E:100, 9B) — with Chaos Project',
+    ]
+  },
+  {
+    name: 'elMefti', tracks: 11, genre: 'Hard Techno (French-Belgian school)',
+    bpmRange: '152–165', avgEnergy: 95, camelot: '9B, 3B, 2B, 10B',
+    profile: 'Refined, groove-forward. Often appears in collaborations (with HOLY PRIEST, MilleniumKid) — the connective tissue artist of this playlist. HeadBangers w/ Vortek\'s is the most energetic solo collaboration.',
+    trackList: [
+      'Brain Scramble (160 BPM, E:96, 3B) — with HOLY PRIEST',
+      'Gaija (160 BPM, E:97, 11B) — with Manji',
+      "HeadBangers (160 BPM, E:97, 3B) — with Vortek's",
+      'Drop This Bass (160 BPM, E:96, 10A) — with HOLY PRIEST',
+      'Wanna Play? (155 BPM, E:93, 9B) — with HOLY PRIEST',
+      'F*CK THE POLICE (155 BPM, E:96, 9B) — with HOLY PRIEST, FACELESS',
+      'DEVIL (155 BPM, E:98, 8B) — with HOLY PRIEST, FACELESS',
+      'Fuck This (152 BPM, E:97, 3B) — with HOLY PRIEST, FACELESS',
+      'Under The Lights (160 BPM, E:97, 2B) — with HOLY PRIEST',
+      'Sukuna (160 BPM, E:90, 10B)',
+      'Vielleicht Vielleicht Remix (165 BPM, E:89, 9B) — with MilleniumKid, JBS, HOLY PRIEST',
+    ]
+  },
+  {
+    name: 'Anime', tracks: 10, genre: 'Frenchcore / Hard Techno boundary',
+    bpmRange: '100–185', avgEnergy: 97, camelot: '3B, 9A, 11A, 2B',
+    profile: 'Cinematic aggression. Bridges warm-up and peak. My Beat and Fine Night at 100 BPM are warm-up hooks. Die Alone at 185 BPM is the ceiling before Korsakoff\'s 195 BPM Lyra.',
+    trackList: [
+      'Die Alone (185 BPM, E:95, 11A) — with Broken Minds',
+      'Fight (170 BPM, E:99, 3B)',
+      'DETONATE - Ophidian Remix (162 BPM, E:100, 9B) — with Ophidian',
+      'In The End (174 BPM, E:96, 9A)',
+      'Contamination (180 BPM, E:99, 2B)',
+      'My Beat (100 BPM, E:98, 8B)',
+      'Fine Night (100 BPM, E:99, 7B)',
+      'Absolute Power (175 BPM, E:94, 3B) — with Broken Minds',
+      'CREATURES OF THE NIGHT (160 BPM, E:97, 11B) — with IMHAPPY',
+      'GIMMELOVE (160 BPM, E:97, 9A) — with TNT, Technoboy, Tuneboy',
+    ]
+  },
+  {
+    name: 'POLTERGST', tracks: 8, genre: 'Hard Techno (with pop-techno crossover elements)',
+    bpmRange: '150–160', avgEnergy: 98, camelot: '9A, 1A, 10B, 9B',
+    profile: 'Polished, functional. Clear melodic hooks over hard kicks — excellent bridging tools between heavier industrial passages. Sonne and Pretty Face are the most melodic Hard Techno tracks in the set.',
+    trackList: [
+      'Into The Void (156 BPM, E:99, 10B) — with RØØTZ, Jordo',
+      'Sonne (160 BPM, E:99, 9A)',
+      'Feuerzeug & Benzin (158 BPM, E:98, 9A)',
+      'Open Your Eyes (150 BPM, E:98, 9A)',
+      'Move It (160 BPM, E:97, 1B)',
+      'Pretty Face (160 BPM, E:98, 9B)',
+      'Transgender (155 BPM, E:97, 1A) — with Police In Paris, Staarz',
+      'Jolene (150 BPM, E:95, 3A) — with Blasterjaxx, ILSE',
+    ]
+  },
+  {
+    name: 'Angerfist', tracks: 7, genre: 'Frenchcore / Hardcore (Dutch masters)',
+    bpmRange: '95–190', avgEnergy: 97, camelot: '8B, 1A, 11A, 4A',
+    profile: 'The hardest artist in the playlist by BPM. What Happened at 190 BPM is the absolute ceiling of the Second Peak section. Solid Stigma at 95 BPM is the only sub-100 Angerfist track — a psychological weapon. Architect of the Second Peak.',
+    trackList: [
+      'What Happened (190 BPM, E:99, 1A)',
+      'Gathering Of Gods (175 BPM, E:99, 8B)',
+      'No Time To Lose (180 BPM, E:98, 4A)',
+      'Pennywise (180 BPM, E:93, 8B)',
+      'Knock Knock (170 BPM, E:95, 11A)',
+      'Shot To The Brain (164 BPM, E:96, 12A) — with CARV',
+      'Solid Stigma (95 BPM, E:99, 3B)',
+    ]
+  },
+  {
+    name: 'TNT / Technoboy / Tuneboy', tracks: 6, genre: 'Hard Techno / Hardstyle (classic Dutch)',
+    bpmRange: '155–160', avgEnergy: 99, camelot: '3B, 9A, 4B',
+    profile: 'The TNT trio appears exclusively together. All tracks are 160 BPM, energy 99–100. They form the structural spine of the Peak section. Hard Beat with Darren Styles is the most anthemic.',
+    trackList: [
+      'Hard Beat (160 BPM, E:100, 3B) — with Darren Styles',
+      '2002 (160 BPM, E:100, 3B)',
+      '2003 (160 BPM, E:100, 3B)',
+      '2004 (160 BPM, E:100, 4B)',
+      'OMG (155 BPM, E:99, 3B)',
+      'GIMMELOVE (160 BPM, E:97, 9A) — with Anime',
+    ]
+  },
+  {
+    name: 'Zatox', tracks: 6, genre: 'Hard Techno / Hardstyle (Italian)',
+    bpmRange: '160', avgEnergy: 92, camelot: '3B, 4B, 7A',
+    profile: 'Consistent mid-to-high energy. Excellent setup tools — arrive just before peak moments and create crowd tension with melodic lead synths. Atlantis (D minor / 7A) is the only 7A key track in the entire playlist.',
+    trackList: [
+      'Dopamin (160 BPM, E:96, 3B)',
+      'New Shit (160 BPM, E:95, 3B) — with HOLY PRIEST',
+      'FILTH (160 BPM, E:97, 4B) — with JAZZY, Jowi',
+      'Diablo (160 BPM, E:90, 3B) — with HOLY PRIEST',
+      'Atlantis (160 BPM, E:82, 7A)',
+      'Nobody Likes - 2025 Yearmix (160 BPM, E:90, 4B)',
+    ]
+  },
+  {
+    name: 'Onlynumbers', tracks: 6, genre: 'Hard Techno',
+    bpmRange: '154–160', avgEnergy: 89, camelot: '4B, 3B, 10B, 8B',
+    profile: 'Slightly lower average energy than other top artists — Onlynumbers tracks serve as breathing room within dense peak sections. Lunar (154 BPM, E:78) is the softest warm-up track that still sounds dark.',
+    trackList: [
+      'Ha Ha (160 BPM, E:97, 3B)',
+      'Numbers Society (156 BPM, E:92, 4B)',
+      'Embrace The Pain (159 BPM, E:87, 10B)',
+      'Rage Every Night (156 BPM, E:94, 8B)',
+      'Lunar (154 BPM, E:78, 9B) — with Basswell',
+      'Party Everyday (157 BPM, E:97, 3A) — with Basswell',
+    ]
+  },
+  {
+    name: "Vortek's", tracks: 6, genre: 'Hard Techno / Acid Techno',
+    bpmRange: '155–160', avgEnergy: 99, camelot: '8B, 10B, 3B',
+    profile: 'One of the highest average energy artists in the playlist. FCKN LOUD and Morning Rave are both functional peak weapons with strong acid bassline elements.',
+    trackList: [
+      'FCKN LOUD (160 BPM, E:99, 10B) — with Restricted',
+      'Morning Rave (158 BPM, E:99, 8B) — with OMAKS, ENERGIC',
+      'I SET FIRE (160 BPM, E:100, 8B) — with Samuel Moriero',
+      'HeadBangers (160 BPM, E:97, 3B) — with elMefti',
+      'No Way (155 BPM, E:100, 1B) — with TAAPION',
+      'Nothing Can Stop Us (155 BPM, E:99, 10A) — with CARV',
+    ]
+  },
+  {
+    name: 'Nic Johnston', tracks: 6, genre: 'Hard Techno / Techno crossover',
+    bpmRange: '75–160', avgEnergy: 95, camelot: '3A, 2B, 2A, 4A, 9A',
+    profile: 'Structural pivot artist. Don\'t Call My Phone at 75 BPM is the biggest BPM outlier in the playlist. Most versatile artist for building set architecture around.',
+    trackList: [
+      "Don't Call My Phone (75 BPM, E:99, 2B) — with Acina",
+      'Can You Feel My Heart (155 BPM, E:99, 9A)',
+      'In the End (155 BPM, E:96, 2A)',
+      'My Body (160 BPM, E:97, 3A)',
+      'Smells Like Teen Spirit (150 BPM, E:96, 4A)',
+      'Fairytale Gone Bad (155 BPM, E:84, 3A)',
+    ]
+  },
+  {
+    name: 'Basswell', tracks: 5, genre: 'Acid Techno / Hard Techno',
+    bpmRange: '152–160', avgEnergy: 95, camelot: '1B, 8A, 9B, 3B',
+    profile: 'Primary Acid Techno voice. Massive Attack at 152 BPM with E:99 is one of the heaviest acid tracks in the set. Lunar (with Onlynumbers) is the softest track in the whole playlist.',
+    trackList: [
+      'Massive Attack (152 BPM, E:99, 1B)',
+      'Devils Got My Back (160 BPM, E:92, 8A)',
+      'Rollercoaster (160 BPM, E:100, 3B) — with So Juice',
+      'Lunar (154 BPM, E:78, 9B) — with Onlynumbers',
+      'Party Everyday (157 BPM, E:97, 3A) — with Onlynumbers',
+    ]
+  },
+  {
+    name: 'Novah', tracks: 5, genre: 'Hard Techno (melodic)',
+    bpmRange: '155', avgEnergy: 98, camelot: '11B, 12A, 3B',
+    profile: 'Consistent, melodically-driven Hard Techno. Appears in Build-Up and Cooldown sections for melodic resolution after heavier passages. Ekstasis Remix (155 BPM, E:100, 12A) is the most extreme energy track.',
+    trackList: [
+      'Lost In Bliss (155 BPM, E:94, 11B)',
+      'ACID (155 BPM, E:99, 3B)',
+      'Ekstasis - NOVAH Remix (155 BPM, E:100, 12A) — with BYORN',
+      'Papi (155 BPM, E:100, 12A) — with CERES',
+      'Bye Bye - NOVAH Remix (155 BPM, E:98, 8B) — with Luciid',
+    ]
+  },
+];
+
+function initArtistGrid() {
+  const container = document.getElementById('artist-grid');
+  if (!container) return;
+  ARTISTS.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'panel';
+    card.style.cursor = 'pointer';
+    card.style.userSelect = 'none';
+    let expanded = false;
+    const header = '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
+      + '<div>'
+      + '<div style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--accent-white);margin-bottom:3px;">' + a.name + '</div>'
+      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:4px;">' + a.tracks + ' tracks · ' + a.genre + '</div>'
+      + '</div>'
+      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);text-align:right;">'
+      + '<div>BPM ' + a.bpmRange + '</div>'
+      + '<div>E:' + a.avgEnergy + '/100</div>'
+      + '<div>' + a.camelot + '</div>'
+      + '</div></div>'
+      + '<div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);margin-bottom:8px;">' + a.profile + '</div>';
+    const trackListHTML = '<div class="artist-track-list" style="display:none;border-top:1px solid var(--border-subtle);padding-top:8px;margin-top:4px;">'
+      + a.trackList.map(t => '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);padding:2px 0;border-bottom:1px solid var(--border-subtle);">' + t + '</div>').join('')
+      + '</div>'
+      + '<div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-top:6px;text-align:center;" class="artist-expand-hint">▼ Show all tracks</div>';
+    card.innerHTML = header + trackListHTML;
+    card.addEventListener('click', () => {
+      expanded = !expanded;
+      const tl = card.querySelector('.artist-track-list');
+      const hint = card.querySelector('.artist-expand-hint');
+      tl.style.display = expanded ? 'block' : 'none';
+      hint.textContent = expanded ? '▲ Hide tracks' : '▼ Show all tracks';
+    });
+    container.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   SET INTELLIGENCE
+═══════════════════════════════════════════════════ */
+function initSetPersonalities() {
+  const sets = [
+    { n:1, zone:'WARM-UP', bpm:'75–160',
+      who:'A DJ with crowd psychology expertise — someone who understands that confusion and contrast are tools. Not a beginner set.',
+      crowd:'The crowd arrives expecting Hard Techno but gets something stranger first. ROSALÍA\'s Berghain at track 12 signals artistic intent.',
+      venue:'Large underground club with tolerant, educated crowd. Tresor Berlin, OHM, Vault 44. Not a festival mainstage.',
+      char:'The only set that dips below 100 BPM (multiple times). The psychological architecture is: confusion → familiarity → first energy surge.' },
+    { n:2, zone:'BUILD-UP', bpm:'105–160',
+      who:'A technically proficient DJ who understands harmonic mixing. This section demands clean 16–32 bar blends and precise EQ work.',
+      crowd:'Crowd is now engaged and demanding forward momentum. Every track must feel like progress.',
+      venue:'Mid-sized club room (400–800 capacity) where the DJ can read individual faces.',
+      char:'The first appearance of the 3B key cluster (tracks 49–66) signals the arrival of the dominant sonic palette.' },
+    { n:3, zone:'PEAK', bpm:'150–165',
+      who:'The headline act. This is the centrepiece.',
+      crowd:'Absolute surrender. The crowd is no longer thinking — only moving.',
+      venue:'Any Hard Techno venue. Works in Berghain\'s Panorama Bar, festival tents, and warehouse raves equally.',
+      char:'The 3B gravity well (tracks 109–135) is the absolute peak — 26 consecutive tracks in 3B / 3A at 160 BPM with energy 96–100.' },
+    { n:4, zone:'SECOND PEAK / HARDER', bpm:'158–195',
+      who:'A specialist in Frenchcore / Hardcore who can handle the 175–195 BPM section without it feeling gratuitous.',
+      crowd:'The crowd either goes harder or exits. This section is a filter — those who stay are committed.',
+      venue:'Masters of Hardcore festival, Defqon.1, or a dedicated Hard Techno room with pre-informed crowd.',
+      char:'Angerfist appears 4 times in this section — he is the musical architect of this section\'s relentlessness.' },
+    { n:5, zone:'COOLDOWN', bpm:'145–165',
+      who:'The same DJ as Set 1 — this section requires the same psychological awareness and willingness to break expectations.',
+      crowd:'After the Second Peak, the crowd expects release. This section provides it through melody, key changes, and slightly lower BPM.',
+      venue:'Same venue as the rest. This is the closing hour — lights gradually rising, crowd releasing.',
+      char:'The Berghain (Remix) by Conrad Taylor at track 209 echoes the original Berghain at track 12 — a deliberate callback that creates narrative closure.' }
+  ];
+  const container = document.getElementById('set-personality-cards');
+  if (!container) return;
+  sets.forEach(s => {
+    const el = document.createElement('div');
+    el.className = 'panel';
+    el.innerHTML = '<div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--accent-white);margin-bottom:8px;letter-spacing:0.1em;">SET ' + s.n + ' — ' + s.zone + ' · BPM ' + s.bpm + '</div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+      + '<div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:3px;text-transform:uppercase;">Who should DJ this</div><div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);">' + s.who + '</div></div>'
+      + '<div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:3px;text-transform:uppercase;">Crowd expectation</div><div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);">' + s.crowd + '</div></div>'
+      + '<div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:3px;text-transform:uppercase;">Venue type</div><div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);">' + s.venue + '</div></div>'
+      + '<div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-dim);margin-bottom:3px;text-transform:uppercase;">Key characteristic</div><div style="font-family:var(--font-ui);font-size:11px;color:var(--text-secondary);">' + s.char + '</div></div>'
+      + '</div>';
+    container.appendChild(el);
+  });
+}
 </script>
 </body>
 </html>
